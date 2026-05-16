@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Descubra qual é o seu Tipo de Corpo Maduro e o protocolo certo para reverter a perda de massa muscular depois dos 50.">
+<title>Programa Renascimento — Teste do Tipo de Corpo Maduro</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --coral: #E85A6F;
+    --coral-dark: #C7405A;
+    --text: #1A1A1A;
+    --text-light: #5C5C5C;
+    --border: #E5E5E5;
+    --bg-soft: #F9F7F5;
+    --red: #DC2626;
+    --green: #16A34A;
+    --warning-bg: #FEF3C7;
+    --warning-border: #FCD34D;
+  }
+  html, body {
+    background: #FFFFFF;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  body { padding-bottom: 60px; }
+
+  /* Topbar */
+  .topbar {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .logo {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .logo span { color: var(--coral); }
+  .progress-wrap {
+    flex: 1;
+    max-width: 220px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--coral);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+  .progress-text {
+    font-size: 13px;
+    color: var(--text-light);
+    font-variant-numeric: tabular-nums;
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* Container */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 28px 20px;
+  }
+
+  /* Steps */
+  .step { display: none; animation: fadeIn 0.35s ease; }
+  .step.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Typography */
+  h1.headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  h2.headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .sub {
+    color: var(--text-light);
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+  .label-q {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--coral);
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: block;
+  }
+  @media (min-width: 600px) {
+    h1.headline { font-size: 34px; }
+    h2.headline { font-size: 28px; }
+  }
+
+  /* Image placeholder */
+  .img-placeholder {
+    width: 100%;
+    height: 220px;
+    background: var(--bg-soft);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 13px;
+    margin: 16px 0;
+    text-align: center;
+    padding: 12px;
+  }
+  .img-placeholder.small { height: 140px; }
+  .img-placeholder.round { border-radius: 50%; width: 120px; height: 120px; margin: 0 auto 16px; }
+
+  /* Options */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .option {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    background: #fff;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    line-height: 1.4;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+  }
+  .option:hover { border-color: var(--coral); background: #FFF8F9; }
+  .option.selected {
+    border-color: var(--coral);
+    background: #FFF1F3;
+    color: var(--coral-dark);
+    font-weight: 600;
+  }
+  .option.selected::before {
+    content: '✓';
+    background: var(--coral);
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .option:not(.selected)::before {
+    content: '';
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* CTA Button */
+  .btn-cta {
+    display: block;
+    width: 100%;
+    background: var(--coral);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 18px 24px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: all 0.18s ease;
+    font-family: inherit;
+    box-shadow: 0 4px 14px rgba(232, 90, 111, 0.25);
+    letter-spacing: 0.3px;
+  }
+  .btn-cta:hover:not(:disabled) {
+    background: var(--coral-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(232, 90, 111, 0.35);
+  }
+  .btn-cta:disabled {
+    background: #D1D5DB;
+    color: #6B7280;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .btn-cta.large {
+    padding: 22px 24px;
+    font-size: 19px;
+  }
+
+  /* Trust signals */
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 18px;
+    color: var(--text-light);
+    font-size: 13px;
+  }
+  .trust-row span { white-space: nowrap; }
+
+  /* Bullets */
+  .bullets { margin: 20px 0; padding: 0; list-style: none; }
+  .bullets li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    color: var(--text);
+    font-size: 16px;
+  }
+  .bullets li::before {
+    content: '🔥';
+    position: absolute;
+    left: 0;
+    top: 8px;
+  }
+
+  /* Input */
+  .input-field {
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 17px;
+    font-family: inherit;
+    color: var(--text);
+    transition: border-color 0.18s ease;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: var(--coral);
+  }
+  .input-hint {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Personalization boxes */
+  .perso-box {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--coral);
+    padding: 22px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  .perso-box.warning {
+    background: #FEF3C7;
+    border-left-color: #D97706;
+  }
+  .perso-box.danger {
+    background: #FEE2E2;
+    border-left-color: #DC2626;
+  }
+  .perso-box.success {
+    background: #DCFCE7;
+    border-left-color: #16A34A;
+  }
+  .perso-box .big-stat {
+    font-family: Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1;
+    margin: 10px 0;
+  }
+  .perso-box .big-stat.red { color: var(--red); }
+  .perso-box p { margin-bottom: 12px; }
+  .perso-box p:last-child { margin-bottom: 0; }
+  .perso-box strong { color: var(--text); }
+
+  /* Loading screen */
+  .loading-list { margin: 24px 0; }
+  .loading-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    color: var(--text-light);
+    font-size: 15px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+  .loading-item.done { opacity: 1; color: var(--text); }
+  .loading-item .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: var(--coral);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  .loading-item.done .spinner {
+    border: none;
+    background: var(--green);
+    animation: none;
+    position: relative;
+  }
+  .loading-item.done .spinner::after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Result page */
+  .diagnosis-card {
+    background: linear-gradient(135deg, #FFF1F3 0%, #FFFFFF 100%);
+    border: 2px solid var(--coral);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .diagnosis-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+  .diagnosis-name {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--coral-dark);
+    margin-bottom: 14px;
+  }
+  .urgency-bar {
+    margin-top: 16px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+  }
+  .urgency-bar .label { font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
+  .urgency-bar .level { font-weight: 700; color: var(--red); font-size: 16px; }
+  .urgency-track { height: 8px; background: var(--border); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+  .urgency-fill { height: 100%; width: 85%; background: linear-gradient(90deg, #FBBF24, #DC2626); }
+
+  /* Section blocks */
+  .section { margin: 36px 0; }
+  .section h3 {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  /* Pillars (3F) */
+  .pillars { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
+  @media (min-width: 600px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
+  .pillar {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    background: #fff;
+  }
+  .pillar .letter {
+    font-family: Georgia, serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1;
+  }
+  .pillar h4 {
+    font-size: 16px;
+    margin: 8px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .pillar p { font-size: 14px; color: var(--text-light); }
+
+  /* Feature list */
+  .features { margin: 16px 0; padding: 0; list-style: none; }
+  .features li {
+    padding: 12px 0 12px 32px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    font-size: 16px;
+  }
+  .features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .features li:last-child { border-bottom: none; }
+
+  /* Cases */
+  .case-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #fff;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .case-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 11px;
+    flex-shrink: 0;
+    text-align: center;
+    padding: 4px;
+  }
+  .case-content .case-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--coral-dark);
+    margin-bottom: 4px;
+  }
+  .case-content p { font-size: 14px; line-height: 1.5; color: var(--text); }
+
+  /* Price table */
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 15px;
+  }
+  .price-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .price-table tr:last-child td {
+    font-weight: 700;
+    font-size: 16px;
+    border-bottom: none;
+    background: var(--bg-soft);
+  }
+  .price-table td:last-child { text-align: right; }
+
+  /* Offer box */
+  .offer-box {
+    background: linear-gradient(135deg, #FFF1F3 0%, #FFFFFF 100%);
+    border: 2px solid var(--coral);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  .offer-anchor {
+    color: var(--text-light);
+    text-decoration: line-through;
+    font-size: 18px;
+  }
+  .offer-price {
+    font-family: Georgia, serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1;
+    margin: 8px 0;
+  }
+  .offer-price .currency { font-size: 28px; vertical-align: top; }
+  .offer-installment {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+
+  /* Timer */
+  .timer-box {
+    background: #FEF3C7;
+    border: 2px solid #F59E0B;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 18px 0;
+    text-align: center;
+  }
+  .timer-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #92400E;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .timer-clock {
+    font-family: 'Courier New', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    color: #B91C1C;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin: 6px 0;
+  }
+  .timer-bonus { font-size: 14px; color: var(--text); margin-top: 8px; font-weight: 500; }
+  .timer-bonus strong { color: var(--coral); }
+
+  /* Guarantee */
+  .guarantee-card {
+    border: 2px dashed var(--green);
+    border-radius: 12px;
+    padding: 20px;
+    background: #F0FDF4;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .guarantee-card .seal {
+    font-size: 42px;
+    margin-bottom: 8px;
+  }
+  .guarantee-card h4 {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  /* FAQ */
+  .faq-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-item .q {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 15px;
+  }
+  .faq-item .a { color: var(--text-light); font-size: 15px; }
+
+  /* Sticky CTA bar on result page */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    padding: 12px 16px;
+    z-index: 50;
+    display: none;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+  }
+  .sticky-cta.active { display: block; }
+  .sticky-cta .inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .sticky-cta .mini-timer {
+    text-align: center;
+    font-size: 13px;
+    color: var(--red);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* Highlights */
+  .highlight { background: #FEF3C7; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+  .danger-text { color: var(--red); font-weight: 700; }
+
+  /* Disqualify screen */
+  .center-text { text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">Programa <span>Renascimento</span></div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0%</div>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- ============================================================ -->
+<!-- ETAPA 0 — LANDING -->
+<!-- ============================================================ -->
+<section class="step active" data-step="0" data-progress="0">
+  <div class="img-placeholder">
+    [IMAGEM PLACEHOLDER — Sandra Vilela sorrindo, look de treino — substituir aqui]
+  </div>
+  <h1 class="headline">
+    Sabe por que depois dos 50 o seu corpo fica <em>mole, flácido, com pochete crescendo e os braços molengas</em> — mesmo quando você se cuida?
+  </h1>
+  <p class="sub">
+    A culpa <strong>NÃO é da idade.</strong> Não é da menopausa. E não é falta de força de vontade.
+    <br><br>
+    É de <strong>UMA coisa silenciosa</strong> que está acontecendo dentro do seu corpo nesse exato momento — e que, se não for revertida agora, vai te deixar <span class="danger-text">dependente dos outros depois dos 70.</span>
+    <br><br>
+    Faça o teste de 2 minutos e descubra o estado REAL do seu corpo + o protocolo certo pra reverter.
+  </p>
+  <ul class="bullets">
+    <li>Descubra o <strong>motivo silencioso</strong> por trás do corpo mole e flácido depois dos 50</li>
+    <li>Entenda por que <strong>caminhada, pilates, funcional e hidroginástica NÃO resolvem</strong> (e o que resolve)</li>
+    <li>Receba seu <strong>diagnóstico personalizado</strong> e o protocolo certo pra sua fase hormonal</li>
+  </ul>
+  <button class="btn-cta large" onclick="nextStep()">QUERO DESCOBRIR AGORA →</button>
+  <div class="trust-row">
+    <span>✓ +10 mil mulheres já fizeram</span>
+    <span>✓ 100% gratuito</span>
+    <span>✓ Leva 2 minutos</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 1 — Q1 SINTOMAS -->
+<!-- ============================================================ -->
+<section class="step" data-step="1" data-progress="5">
+  <span class="label-q">Pergunta 1 de 11</span>
+  <h2 class="headline">Quando você se olha no espelho hoje, com o que você MAIS se identifica?</h2>
+  <p class="sub">Seja honesta. Pode marcar quantas opções quiser — quanto mais marcar, mais preciso fica o seu diagnóstico.</p>
+  <div class="options" id="options-sintomas" data-multi="true" data-key="sintomas">
+    <button class="option" data-value="mole">Meu corpo está mole e flácido</button>
+    <button class="option" data-value="bracos">Meus braços ficaram molengas (aquele "tchauzinho")</button>
+    <button class="option" data-value="pochete">Tenho uma pochete na barriga que não vai embora</button>
+    <button class="option" data-value="bumbum">Meu bumbum murchou e caiu</button>
+    <button class="option" data-value="dores">Tenho dores nas articulações (joelho, coluna, ombro)</button>
+    <button class="option" data-value="envelhecido">Sinto meu corpo envelhecido rápido demais</button>
+    <button class="option" data-value="naoreconheco">Não me reconheço mais quando me olho no espelho</button>
+    <button class="option" data-value="inflamado">Meu corpo está inchado / inflamado</button>
+  </div>
+  <button class="btn-cta" id="btn-1" onclick="nextStep()" disabled>Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 2 — Personalização #1: REVELAÇÃO CIENTÍFICA -->
+<!-- ============================================================ -->
+<section class="step" data-step="2" data-progress="12">
+  <div class="perso-box danger">
+    <p style="font-size: 18px; font-weight: 600; margin-bottom: 18px;">💔 Eu te entendo.</p>
+    <p>O que você marcou tem <strong>UM nome só:</strong></p>
+    <div class="big-stat red">PERDA DE MASSA MUSCULAR</div>
+    <p>A partir dos 30 anos, a mulher perde <strong>1% de massa muscular por ano.</strong></p>
+    <p>Na menopausa, isso <strong>TRIPLICA — chega a 3% ao ano.</strong></p>
+    <p style="margin-top: 14px;">Resultado:</p>
+    <p>🔴 Aos 50 anos, você já perdeu até <strong>30%</strong> da sua massa muscular.</p>
+    <p>🔴 Aos 60 anos, até <strong>40%</strong>.</p>
+    <p style="margin-top: 14px;"><strong>É por isso</strong> que seu corpo está mudando. <strong>É por isso</strong> que nada do que você tentou funcionou. E <strong>é por isso</strong> que o tempo está jogando contra você.</p>
+  </div>
+  <button class="btn-cta" onclick="nextStep()">Quero ver minha situação →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 3 — Q2 IDADE -->
+<!-- ============================================================ -->
+<section class="step" data-step="3" data-progress="18">
+  <span class="label-q">Pergunta 2 de 11</span>
+  <h2 class="headline">Pra calcular <em>EXATAMENTE</em> quanta massa muscular você já perdeu, me diz: qual a sua idade?</h2>
+  <div class="options" data-multi="false" data-key="idade">
+    <button class="option" data-value="40-49">Tenho entre 40 e 49 anos</button>
+    <button class="option" data-value="50-54">Tenho entre 50 e 54 anos</button>
+    <button class="option" data-value="55-59">Tenho entre 55 e 59 anos</button>
+    <button class="option" data-value="60-64">Tenho entre 60 e 64 anos</button>
+    <button class="option" data-value="65+">Tenho 65 anos ou mais</button>
+    <button class="option" data-value="under40">Tenho menos de 40 anos</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 4 — Personalização #2: CÁLCULO DINÂMICO + MEDO -->
+<!-- ============================================================ -->
+<section class="step" data-step="4" data-progress="26">
+  <div class="perso-box danger">
+    <p style="font-size: 18px; font-weight: 700; margin-bottom: 14px;">🚨 Atenção. Isso é sério.</p>
+    <p>Com <strong id="idade-display">[idade]</strong>, você já pode ter perdido até:</p>
+    <div class="big-stat red" id="perda-percent">30%</div>
+    <p id="idade-message">Você está no ponto crítico — agir agora muda tudo.</p>
+    <p style="margin-top: 18px;">Sem massa muscular, <strong>é ladeira abaixo</strong>: o corpo fica frágil, as dores aumentam, e o risco de <strong>sarcopenia, osteoporose, diabetes, AVC, infarto e até Alzheimer</strong> dispara.</p>
+    <p style="margin-top: 14px;">⬇ Quanto MENOS massa muscular → MAIS doença.</p>
+    <p>⬆ Quanto MAIS massa muscular → MAIS saúde, MAIS firmeza, MAIS autonomia.</p>
+  </div>
+  <button class="btn-cta" onclick="nextStep()">Continuar o teste →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 5 — Q3 MENOPAUSA -->
+<!-- ============================================================ -->
+<section class="step" data-step="5" data-progress="32">
+  <span class="label-q">Pergunta 3 de 11</span>
+  <h2 class="headline">E em relação à menopausa, você diria que está:</h2>
+  <div class="options" data-multi="false" data-key="menopausa">
+    <button class="option" data-value="antes">Ainda não cheguei nessa fase</button>
+    <button class="option" data-value="climaterio">Estou no climatério (sintomas começando)</button>
+    <button class="option" data-value="menop-recente">Já entrei na menopausa há menos de 5 anos</button>
+    <button class="option" data-value="menop-antiga">Estou na menopausa há mais de 5 anos</button>
+    <button class="option" data-value="incerto">Não tenho certeza</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 6 — Personalização #3: MENOPAUSA -->
+<!-- ============================================================ -->
+<section class="step" data-step="6" data-progress="38">
+  <div class="perso-box warning">
+    <p style="font-size: 17px; font-weight: 600; margin-bottom: 14px;">⚠️ Isso muda TUDO no seu caso.</p>
+    <p id="menopausa-message">A menopausa não é só sobre calor e oscilação de humor.</p>
+    <p style="margin-top: 12px;">Nessa fase, a queda do estrogênio <strong>acelera a perda de massa muscular</strong> e <strong>multiplica o acúmulo de gordura na barriga</strong> — aquela pochete teimosa que não sai com NENHUMA dieta.</p>
+    <p style="margin-top: 12px;">É por isso que mulheres na sua fase, mesmo comendo "certo", veem o corpo derreter ano após ano.</p>
+    <p style="margin-top: 14px; font-weight: 600;">A boa notícia: existe UM tipo de treino que reverte isso. E você está prestes a descobrir.</p>
+  </div>
+  <button class="btn-cta" onclick="nextStep()">Quero descobrir →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 7 — Q4 TENTATIVAS FRUSTRADAS -->
+<!-- ============================================================ -->
+<section class="step" data-step="7" data-progress="45">
+  <span class="label-q">Pergunta 4 de 11</span>
+  <h2 class="headline">O que você já tentou para mudar seu corpo? (marque tudo que tentou)</h2>
+  <div class="options" data-multi="true" data-key="tentativas">
+    <button class="option" data-value="caminhada">Caminhada</button>
+    <button class="option" data-value="hidro">Hidroginástica</button>
+    <button class="option" data-value="pilates">Pilates</button>
+    <button class="option" data-value="academia">Academia (musculação)</button>
+    <button class="option" data-value="funcional">Funcional / crossfit</button>
+    <button class="option" data-value="online">Treinos online genéricos (apps)</button>
+    <button class="option" data-value="dietas">Dietas (low carb, jejum, etc)</button>
+    <button class="option" data-value="remedios">Remédios para emagrecer (Mounjaro, Ozempic, etc)</button>
+    <button class="option" data-value="nada">Nada ainda funcionou</button>
+  </div>
+  <button class="btn-cta" id="btn-7" onclick="nextStep()" disabled>Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 8 — Personalização #4: POLARIZAÇÃO DO INIMIGO -->
+<!-- ============================================================ -->
+<section class="step" data-step="8" data-progress="52">
+  <div class="perso-box">
+    <p style="font-size: 17px; font-weight: 600; margin-bottom: 14px;" id="tentativas-intro">💔 Você marcou várias opções — e provavelmente não viu o resultado que esperava.</p>
+    <p style="margin-bottom: 14px;">A verdade que ninguém te conta:</p>
+    <p style="color: #DC2626; font-weight: 600; margin: 6px 0;">❌ Caminhada NÃO constrói massa muscular</p>
+    <p style="color: #DC2626; font-weight: 600; margin: 6px 0;">❌ Pilates e funcional NÃO geram firmeza real</p>
+    <p style="color: #DC2626; font-weight: 600; margin: 6px 0;">❌ Hidroginástica NÃO reverte sarcopenia</p>
+    <p style="color: #DC2626; font-weight: 600; margin: 6px 0;">❌ Treinos online genéricos NÃO consideram seu corpo maduro</p>
+    <p style="color: #DC2626; font-weight: 600; margin: 6px 0;">❌ Remédios SEM treino de força só pioram a flacidez</p>
+    <p style="margin-top: 16px; color: #16A34A; font-weight: 700;">✅ Existe UM único tipo de treino que funciona depois dos 50 — e em algumas etapas você vai descobrir qual é.</p>
+  </div>
+  <button class="btn-cta" onclick="nextStep()">Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 9 — Q5 MAIOR MEDO -->
+<!-- ============================================================ -->
+<section class="step" data-step="9" data-progress="58">
+  <span class="label-q">Pergunta 5 de 11</span>
+  <h2 class="headline">Qual o seu MAIOR medo em relação ao envelhecimento?</h2>
+  <p class="sub">Seja honesta — é só você e eu aqui.</p>
+  <div class="options" data-multi="false" data-key="medo">
+    <button class="option" data-value="dependente">Ficar dependente de outras pessoas pra coisas básicas</button>
+    <button class="option" data-value="corpo">Nunca mais ter o corpo que eu tinha</button>
+    <button class="option" data-value="dores">Ter dores crônicas pelo resto da vida</button>
+    <button class="option" data-value="autoestima">Perder minha autoestima de vez</button>
+    <button class="option" data-value="doencas">Doenças sérias (osteoporose, diabetes, AVC, Alzheimer)</button>
+    <button class="option" data-value="tudo">Todas as opções acima</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 10 — Personalização #5: 1 EM CADA 3 -->
+<!-- ============================================================ -->
+<section class="step" data-step="10" data-progress="65">
+  <div class="perso-box danger">
+    <p style="font-size: 17px; font-weight: 600; margin-bottom: 14px;">🥺 Eu sei que isso dói.</p>
+    <p>Sabe quantas mulheres entre 70 e 80 anos hoje <strong>dependem de outra pessoa</strong> pra tomar banho, ir ao banheiro ou subir uma escada?</p>
+    <div class="big-stat red">1 em cada 3</div>
+    <p>Isso poderia ter sido evitado com UMA única coisa: <strong>massa muscular preservada a partir dos 50.</strong></p>
+    <p style="margin-top: 14px; font-weight: 600;">Mas calma — você ainda está em tempo. E o teste vai te mostrar exatamente o caminho.</p>
+  </div>
+  <button class="btn-cta" onclick="nextStep()">Quero ver meu caminho →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 11 — Q6 LIMITAÇÕES FÍSICAS -->
+<!-- ============================================================ -->
+<section class="step" data-step="11" data-progress="72">
+  <span class="label-q">Pergunta 6 de 11</span>
+  <h2 class="headline">Você tem alguma limitação física ou diagnóstico?</h2>
+  <p class="sub">Pode marcar mais de uma. Isso me ajuda a adaptar seu protocolo com segurança.</p>
+  <div class="options" data-multi="true" data-key="limitacoes">
+    <button class="option" data-value="joelho">Problemas no joelho</button>
+    <button class="option" data-value="coluna">Problemas na coluna</button>
+    <button class="option" data-value="ombro">Problemas no ombro</button>
+    <button class="option" data-value="artrite">Artrite ou artrose</button>
+    <button class="option" data-value="fibromialgia">Fibromialgia</button>
+    <button class="option" data-value="osteoporose">Osteoporose</button>
+    <button class="option" data-value="hernia">Hérnia de disco</button>
+    <button class="option" data-value="nenhuma">Não tenho nenhuma limitação</button>
+  </div>
+  <button class="btn-cta" id="btn-11" onclick="nextStep()" disabled>Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 12 — Personalização #6: QUEBRA DE OBJEÇÃO -->
+<!-- ============================================================ -->
+<section class="step" data-step="12" data-progress="78">
+  <div class="perso-box success">
+    <p style="font-size: 17px; font-weight: 700; margin-bottom: 14px;">✅ Boa notícia.</p>
+    <p>Independente do que você marcou, o método que vou te mostrar <strong>JÁ FUNCIONOU</strong> para mulheres com:</p>
+    <p style="margin: 6px 0;">→ Artrite reumatoide</p>
+    <p style="margin: 6px 0;">→ Fibromialgia</p>
+    <p style="margin: 6px 0;">→ Hérnia de disco</p>
+    <p style="margin: 6px 0;">→ Osteoporose</p>
+    <p style="margin: 6px 0;">→ Dores em joelho, coluna e ombro</p>
+    <p style="margin-top: 16px; font-weight: 600;">Sandra Vilela <strong>nunca teve uma única aluna machucada em 12 anos.</strong> Você não vai ser a primeira.</p>
+  </div>
+  <button class="btn-cta" onclick="nextStep()">Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 13 — Q7 TEMPO DISPONÍVEL -->
+<!-- ============================================================ -->
+<section class="step" data-step="13" data-progress="82">
+  <span class="label-q">Pergunta 7 de 11</span>
+  <h2 class="headline">Quanto tempo por dia você tem disponível para se cuidar?</h2>
+  <div class="options" data-multi="false" data-key="tempo">
+    <button class="option" data-value="15">Só consigo 15-20 minutos</button>
+    <button class="option" data-value="30">Tenho uns 30 minutos</button>
+    <button class="option" data-value="45-60">Tenho 45 minutos a 1 hora</button>
+    <button class="option" data-value="60+">Tenho mais de 1 hora</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 14 — Q8 ONDE TREINAR -->
+<!-- ============================================================ -->
+<section class="step" data-step="14" data-progress="86">
+  <span class="label-q">Pergunta 8 de 11</span>
+  <h2 class="headline">Onde você prefere treinar?</h2>
+  <div class="options" data-multi="false" data-key="local">
+    <button class="option" data-value="casa">Em casa, no meu ritmo, no meu horário</button>
+    <button class="option" data-value="academia">Em academia, com estrutura completa</button>
+    <button class="option" data-value="ar-livre">Ao ar livre</button>
+    <button class="option" data-value="qualquer">Não tenho preferência</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 15 — Q9 EQUIPAMENTOS -->
+<!-- ============================================================ -->
+<section class="step" data-step="15" data-progress="89">
+  <span class="label-q">Pergunta 9 de 11</span>
+  <h2 class="headline">Você tem em casa algum desses equipamentos?</h2>
+  <p class="sub">Pode marcar mais de um. Se não tiver nenhum, sem problema — é barato e adaptamos.</p>
+  <div class="options" data-multi="true" data-key="equipamentos">
+    <button class="option" data-value="halteres">Halteres (pesos de mão)</button>
+    <button class="option" data-value="caneleiras">Caneleiras</button>
+    <button class="option" data-value="elasticos">Elásticos / faixas elásticas</button>
+    <button class="option" data-value="cadeira">Tenho cadeira/sofá (usamos como apoio)</button>
+    <button class="option" data-value="nada">Não tenho nada disso</button>
+  </div>
+  <button class="btn-cta" id="btn-15" onclick="nextStep()" disabled>Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 16 — Q10 OBJETIVO -->
+<!-- ============================================================ -->
+<section class="step" data-step="16" data-progress="92">
+  <span class="label-q">Pergunta 10 de 11</span>
+  <h2 class="headline">Qual é o seu objetivo número 1 nos próximos 90 dias?</h2>
+  <div class="options" data-multi="false" data-key="objetivo">
+    <button class="option" data-value="firmar">Firmar o corpo e acabar com a flacidez</button>
+    <button class="option" data-value="emagrecer">Emagrecer e ficar com a barriga mais lisa</button>
+    <button class="option" data-value="massa">Ganhar massa muscular e ter mais força</button>
+    <button class="option" data-value="dores">Acabar com as dores articulares</button>
+    <button class="option" data-value="saude">Recuperar a saúde de forma geral</button>
+    <button class="option" data-value="autoestima">Voltar a me sentir bonita e confiante</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 17 — Q11 PRESSA -->
+<!-- ============================================================ -->
+<section class="step" data-step="17" data-progress="94">
+  <span class="label-q">Pergunta 11 de 11</span>
+  <h2 class="headline">Em quanto tempo você quer ver resultado no espelho?</h2>
+  <div class="options" data-multi="false" data-key="prazo">
+    <button class="option" data-value="30">Em 30 dias (urgência total)</button>
+    <button class="option" data-value="60-90">Em 60-90 dias</button>
+    <button class="option" data-value="6m">Em 6 meses</button>
+    <button class="option" data-value="longo">Não tenho pressa, quero saúde a longo prazo</button>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 18 — CAPTURA NOME -->
+<!-- ============================================================ -->
+<section class="step" data-step="18" data-progress="96">
+  <h2 class="headline">Ótimo! Estou quase montando seu Protocolo 3F personalizado.</h2>
+  <p class="sub">Como você prefere que eu te chame?</p>
+  <input class="input-field" type="text" id="input-nome" placeholder="Seu primeiro nome" autocomplete="given-name" oninput="validateNome()">
+  <button class="btn-cta" id="btn-nome" onclick="saveNomeAndNext()" disabled>Continuar →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 19 — CAPTURA EMAIL -->
+<!-- ============================================================ -->
+<section class="step" data-step="19" data-progress="98">
+  <h2 class="headline">Quase lá, <span class="dyn-nome">[Nome]</span>!</h2>
+  <p class="sub">Em qual e-mail você quer receber seu diagnóstico e protocolo? Eu envio uma cópia pra você acessar a qualquer momento.</p>
+  <input class="input-field" type="email" id="input-email" placeholder="seuemail@exemplo.com" autocomplete="email" oninput="validateEmail()">
+  <p class="input-hint">🔒 Seu email está 100% seguro. Nunca enviaremos spam.</p>
+  <button class="btn-cta" id="btn-email" onclick="saveEmailAndNext()" disabled>Gerar meu Protocolo 3F →</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 20 — LOADING -->
+<!-- ============================================================ -->
+<section class="step" data-step="20" data-progress="99">
+  <h2 class="headline center-text">Aguarde, <span class="dyn-nome">[Nome]</span>...</h2>
+  <p class="sub center-text">Estou montando seu Protocolo 3F personalizado com base nas suas respostas.</p>
+  <div class="loading-list" id="loadingList">
+    <div class="loading-item"><div class="spinner"></div><span>Analisando sua faixa etária e fase hormonal...</span></div>
+    <div class="loading-item"><div class="spinner"></div><span>Identificando seu Tipo de Corpo Maduro...</span></div>
+    <div class="loading-item"><div class="spinner"></div><span>Cruzando seus sintomas com base de 10.000 mulheres...</span></div>
+    <div class="loading-item"><div class="spinner"></div><span>Selecionando treinos compatíveis com suas limitações...</span></div>
+    <div class="loading-item"><div class="spinner"></div><span>Montando plano nutricional pro seu objetivo...</span></div>
+    <div class="loading-item"><div class="spinner"></div><span>Calculando tempo até seu primeiro resultado...</span></div>
+    <div class="loading-item"><div class="spinner"></div><span>Preparando seu diagnóstico final...</span></div>
+  </div>
+  <div class="progress-wrap" style="max-width: 100%; height: 10px;"><div class="progress-bar" id="loadingProgress"></div></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ETAPA 21 — RESULTADO + OFERTA -->
+<!-- ============================================================ -->
+<section class="step" data-step="21" data-progress="100">
+
+  <!-- BLOCO 1: Diagnóstico -->
+  <h1 class="headline">🎯 <span class="dyn-nome">[Nome]</span>, seu diagnóstico está pronto.</h1>
+  <div class="diagnosis-card">
+    <div class="diagnosis-label">SEU TIPO DE CORPO MADURO É:</div>
+    <div class="diagnosis-name" id="tipo-name">SARCOPÊNICA</div>
+    <p id="tipo-description">Você está perdendo massa muscular em ritmo acelerado. Seu corpo está pedindo SOCORRO por estímulo de força.</p>
+    <div class="urgency-bar">
+      <div class="label">Nível de urgência do seu caso:</div>
+      <div class="level" id="urgency-level">ALTO 🔴</div>
+      <div class="urgency-track"><div class="urgency-fill" id="urgency-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- BLOCO 2: Sandra -->
+  <div class="section">
+    <h3>Quem vai te guiar nesse caminho:</h3>
+    <div class="img-placeholder round">[FOTO Sandra]</div>
+    <div style="text-align: center; margin-bottom: 14px;">
+      <strong style="font-size: 18px;">Sandra Vilela</strong><br>
+      <span style="color: var(--text-light); font-size: 14px;">Especialista em Treinamento de Força para Mulheres 50+<br>12 anos de experiência • +10 mil alunas transformadas</span>
+    </div>
+    <p>"Aos 47 anos eu tinha um corpo que não reconhecia. Um ortopedista me disse que eu ia ser uma idosa dependente antes dos 70."</p>
+    <p style="margin-top: 12px;">"Eu não aceitei. Estudei tudo sobre treino de força pra mulher madura, me especializei, apliquei em mim mesma. Em 6 meses meu corpo mudou. Hoje, aos 58, tenho o corpo mais forte da minha vida."</p>
+    <p style="margin-top: 12px;"><strong>"E já ajudei +10 mil mulheres a fazerem o mesmo."</strong></p>
+  </div>
+
+  <!-- BLOCO 3: Método 3F -->
+  <div class="section">
+    <h3>A solução para o seu caso é o Método 3F</h3>
+    <p>O ÚNICO método criado <strong>exclusivamente para mulheres 50+</strong>, adaptado aos 3 tipos de corpo maduro.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="letter">F</div>
+        <h4>Força</h4>
+        <p>Treino de musculação adaptado pro corpo maduro, em casa, sem risco de lesão.</p>
+      </div>
+      <div class="pillar">
+        <div class="letter">F</div>
+        <h4>Firmeza</h4>
+        <p>Protocolo nutricional anti-flacidez e anti-inflamatório, por faixa de peso.</p>
+      </div>
+      <div class="pillar">
+        <div class="letter">F</div>
+        <h4>Flexibilidade</h4>
+        <p>Mobilidade articular pra acabar com dores e proteger suas articulações.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 4: Como funciona -->
+  <div class="section">
+    <h3>Como você vai receber tudo isso, <span class="dyn-nome">[Nome]</span>:</h3>
+    <ul class="features">
+      <li>Acesso pelo <strong>aplicativo</strong> (celular + TV — parecido com Netflix)</li>
+      <li><strong>Protocolo de Treino e Alimentação 3F Semanal</strong>: 4 treinos por semana de ~30 minutos cada</li>
+      <li>Roteiro pronto, passo a passo, com <strong>demonstração visual de cada exercício</strong></li>
+      <li><strong>Plano Nutricional Densa 50+</strong> por faixa de peso e objetivo</li>
+      <li><strong>Rotina Anti-Dor</strong> de mobilidade e equilíbrio</li>
+      <li><strong>Desafio 7 Dias Desinflama</strong> pra começar com o pé direito</li>
+    </ul>
+  </div>
+
+  <!-- BLOCO 5: Cases -->
+  <div class="section">
+    <h3>Mulheres como você que já transformaram com o Método 3F:</h3>
+
+    <div class="case-card">
+      <div class="case-img">[FOTO Regina<br>antes/depois]</div>
+      <div class="case-content">
+        <div class="case-name">Regina, 56 anos</div>
+        <p>"Ia gastar R$ 22 mil em abdominoplastia. Antes de operar, decidi tentar o Programa Renascimento. Em 3 meses transformei meu corpo em casa, sem cirurgia."</p>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-img">[FOTO Solange<br>antes/depois]</div>
+      <div class="case-content">
+        <div class="case-name">Solange, 53 anos</div>
+        <p>"Estava com medo de começar Mounjaro mas via como única saída. Encontrei o Método 3F, tentei antes do remédio. Perdi 18kg, recuperei minha saúde — sem precisar do remédio."</p>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-img">[FOTO Marlene<br>antes/depois]</div>
+      <div class="case-content">
+        <div class="case-name">Marlene, 58 anos</div>
+        <p>"Estava entrando em depressão pela aparência. Em 3 meses no Programa Renascimento, transformei o corpo e voltei a usar biquíni depois de 8 anos."</p>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-img">[FOTO Conceição<br>antes/depois]</div>
+      <div class="case-content">
+        <div class="case-name">Conceição, 79 anos</div>
+        <p>"Achei que era tarde demais. Hoje, com 79 anos, estou ganhando músculo e me sentindo uma menina. O problema nunca foi a idade — era o método."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 6: Ancoragem -->
+  <div class="section">
+    <h3>O que tudo isso valeria separado?</h3>
+    <table class="price-table">
+      <tr><td>Personal especializada (3 meses)</td><td>R$ 3.600</td></tr>
+      <tr><td>Programa Nutricional personalizado</td><td>R$ 450</td></tr>
+      <tr><td>Plano de Mobilidade</td><td>R$ 250</td></tr>
+      <tr><td>Desafio Desinflama</td><td>R$ 197</td></tr>
+      <tr><td><strong>VALOR TOTAL</strong></td><td><strong>R$ 4.497</strong></td></tr>
+    </table>
+    <p style="text-align: center; margin: 14px 0;">Valor cheio do Programa Renascimento: <span class="offer-anchor">R$ 297</span></p>
+  </div>
+
+  <!-- BLOCO 7: Oferta + Timer -->
+  <div class="offer-box">
+    <p style="margin-bottom: 6px; font-size: 16px;"><span class="dyn-nome">[Nome]</span>, hoje seu acesso é por apenas</p>
+    <div class="offer-price"><span class="currency">R$</span>97</div>
+    <p class="offer-installment">à vista — ou 12x de R$ 9,77 no cartão</p>
+
+    <div class="timer-box">
+      <div class="timer-label">⏰ Oferta válida por</div>
+      <div class="timer-clock" id="timer">15:00</div>
+      <div class="timer-bonus">
+        Nos próximos 15 minutos você leva <strong>DOBRO de acesso</strong>:<br>
+        <strong>6 meses</strong> do Protocolo 3F no lugar dos 3 meses padrão + bônus liberados
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 8: Garantia -->
+  <div class="guarantee-card">
+    <div class="seal">🛡️</div>
+    <h4>30 dias de Garantia Incondicional</h4>
+    <p>Você entra hoje, testa o protocolo por 30 dias. Se não sentir diferença no seu corpo e na sua disposição, devolvemos <strong>100% do seu dinheiro</strong>. Sem burocracia, sem perguntas.</p>
+    <p style="margin-top: 10px; font-weight: 700;">Você não tem absolutamente NADA a perder.</p>
+  </div>
+
+  <!-- BLOCO 9: CTA Final -->
+  <a href="#" id="checkoutBtn" class="btn-cta large" style="text-decoration: none; text-align: center;" onclick="goToCheckout(event)">QUERO MEU PROTOCOLO 3F POR R$ 97 →</a>
+  <div class="trust-row" style="margin-top: 12px;">
+    <span>🔒 Pagamento seguro</span>
+    <span>💳 Cartão / Pix / Boleto</span>
+    <span>✅ Acesso imediato</span>
+  </div>
+
+  <!-- BLOCO 10: FAQ -->
+  <div class="section">
+    <h3>Perguntas que outras alunas já fizeram:</h3>
+    <div class="faq-item">
+      <div class="q">E se eu tiver mais de 70 anos?</div>
+      <div class="a">Funciona. Temos alunas de 79 anos ganhando músculo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">E se eu tiver dor no joelho ou na coluna?</div>
+      <div class="a">O método é adaptado. Funciona para limitações físicas — exceto repouso absoluto.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">E se eu nunca treinei na vida?</div>
+      <div class="a">A maioria das alunas começou do zero. O método é progressivo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">E se eu não tiver equipamento em casa?</div>
+      <div class="a">Tem treinos sem equipamento e adaptações com cadeira / garrafa pet.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">E se eu não tiver resultado?</div>
+      <div class="a">30 dias de garantia incondicional. Dinheiro de volta sem perguntas.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TELA DE DESQUALIFICAÇÃO (menos de 40 anos) -->
+<!-- ============================================================ -->
+<section class="step" data-step="99" data-progress="100">
+  <div class="perso-box">
+    <h2 class="headline">Obrigada por participar!</h2>
+    <p>O Programa Renascimento foi desenvolvido <strong>especificamente para mulheres a partir dos 40 anos</strong>, com foco em quem já está sentindo os efeitos da perda de massa muscular e da menopausa.</p>
+    <p style="margin-top: 12px;">Se ainda assim você quiser continuar, é só clicar abaixo. Caso contrário, indicamos buscar uma orientação especializada para sua faixa etária.</p>
+  </div>
+  <button class="btn-cta" onclick="forceContinue()">Quero continuar mesmo assim →</button>
+</section>
+
+</main>
+
+<!-- STICKY CTA (aparece no resultado) -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="inner">
+    <div class="mini-timer">⏰ Oferta expira em <span id="miniTimer">15:00</span></div>
+    <a href="#" class="btn-cta" style="margin-top: 0; text-decoration: none; text-align: center; display: block;" onclick="goToCheckout(event)">QUERO POR R$ 97 →</a>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  currentStep: 0,
+  answers: {
+    sintomas: [],
+    idade: null,
+    menopausa: null,
+    tentativas: [],
+    medo: null,
+    limitacoes: [],
+    tempo: null,
+    local: null,
+    equipamentos: [],
+    objetivo: null,
+    prazo: null,
+    nome: '',
+    email: ''
+  },
+  tipoScore: { sarcopenica: 0, inflamada: 0, hormonal: 0 },
+  tipoFinal: null,
+  timerSeconds: 15 * 60
+};
+
+const CHECKOUT_URL = 'https://exemplo.checkout.com/programa-renascimento'; // substituir pelo link real
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showStep(stepNum) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  const target = document.querySelector(`.step[data-step="${stepNum}"]`);
+  if (!target) return;
+  target.classList.add('active');
+  state.currentStep = stepNum;
+  updateProgress(target.dataset.progress);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Trigger personalization for specific steps
+  if (stepNum === 4) renderIdadePerso();
+  if (stepNum === 6) renderMenopausaPerso();
+  if (stepNum === 8) renderTentativasPerso();
+  if (stepNum === 19) injectNome();
+  if (stepNum === 20) runLoading();
+  if (stepNum === 21) renderResultado();
+}
+
+function updateProgress(percent) {
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressText').textContent = percent + '%';
+}
+
+function nextStep() {
+  // Desqualificação se idade < 40
+  if (state.currentStep === 3 && state.answers.idade === 'under40') {
+    showStep(99);
+    return;
+  }
+  showStep(state.currentStep + 1);
+}
+
+function forceContinue() {
+  showStep(4);
+}
+
+// ============================================================
+// OPTION CLICK HANDLER
+// ============================================================
+document.querySelectorAll('.options').forEach(group => {
+  const isMulti = group.dataset.multi === 'true';
+  const key = group.dataset.key;
+  const buttons = group.querySelectorAll('.option');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.value;
+
+      if (isMulti) {
+        btn.classList.toggle('selected');
+        const arr = state.answers[key];
+        if (btn.classList.contains('selected')) {
+          if (!arr.includes(val)) arr.push(val);
+        } else {
+          state.answers[key] = arr.filter(v => v !== val);
+        }
+        updateMultiBtn(group);
+      } else {
+        buttons.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.answers[key] = val;
+        scoreTipo();
+        // Auto-advance for single selection after short delay
+        setTimeout(() => nextStep(), 320);
+      }
+      scoreTipo();
+    });
+  });
+});
+
+function updateMultiBtn(group) {
+  // Each multi group has a btn with id="btn-X" where X = data-step
+  const stepNum = group.closest('.step').dataset.step;
+  const btn = document.getElementById('btn-' + stepNum);
+  if (!btn) return;
+  const key = group.dataset.key;
+  btn.disabled = state.answers[key].length === 0;
+}
+
+// ============================================================
+// TIPO DETECTION
+// ============================================================
+function scoreTipo() {
+  const s = { sarcopenica: 0, inflamada: 0, hormonal: 0 };
+
+  // Sintomas
+  const sintomas = state.answers.sintomas;
+  if (sintomas.includes('mole')) s.sarcopenica += 2;
+  if (sintomas.includes('bracos')) s.sarcopenica += 2;
+  if (sintomas.includes('bumbum')) s.sarcopenica += 2;
+  if (sintomas.includes('envelhecido')) s.sarcopenica += 1;
+  if (sintomas.includes('naoreconheco')) s.sarcopenica += 1;
+  if (sintomas.includes('pochete')) { s.inflamada += 2; s.hormonal += 1; }
+  if (sintomas.includes('inflamado')) s.inflamada += 3;
+  if (sintomas.includes('dores')) s.inflamada += 1;
+
+  // Menopausa
+  if (state.answers.menopausa === 'climaterio') s.hormonal += 2;
+  if (state.answers.menopausa === 'menop-recente') s.hormonal += 3;
+  if (state.answers.menopausa === 'menop-antiga') s.hormonal += 1;
+
+  state.tipoScore = s;
+  const max = Math.max(s.sarcopenica, s.inflamada, s.hormonal);
+  if (max === 0) state.tipoFinal = 'sarcopenica';
+  else if (s.sarcopenica === max) state.tipoFinal = 'sarcopenica';
+  else if (s.inflamada === max) state.tipoFinal = 'inflamada';
+  else state.tipoFinal = 'hormonal';
+}
+
+// ============================================================
+// DYNAMIC PERSONALIZATION COPY
+// ============================================================
+function renderIdadePerso() {
+  const map = {
+    '40-49': { p: '20%', msg: 'Você ainda tem tempo, mas o relógio já está correndo. Cada mês conta.' },
+    '50-54': { p: '30%', msg: 'Você está no ponto crítico — agir AGORA muda tudo.' },
+    '55-59': { p: '35%', msg: 'O sinal vermelho já acendeu. Cada mês importa.' },
+    '60-64': { p: '40%', msg: 'Você está na zona de risco de dependência precoce. Reverter agora é urgente.' },
+    '65+':   { p: 'mais de 40%', msg: 'Mas calma — temos alunas de 79 anos ganhando músculo. Ainda dá pra reverter.' },
+    'under40': { p: '15%', msg: 'Você está na fase de prevenção. Começar agora evita anos de problema.' }
+  };
+  const data = map[state.answers.idade] || map['50-54'];
+  const idadeLabel = {
+    '40-49': '40 a 49 anos', '50-54': '50 a 54 anos', '55-59': '55 a 59 anos',
+    '60-64': '60 a 64 anos', '65+': '65 anos ou mais', 'under40': 'menos de 40 anos'
+  };
+  document.getElementById('idade-display').textContent = idadeLabel[state.answers.idade];
+  document.getElementById('perda-percent').textContent = data.p;
+  document.getElementById('idade-message').textContent = data.msg;
+}
+
+function renderMenopausaPerso() {
+  const map = {
+    'antes': 'Você ainda não chegou na menopausa — mas saiba que ela já está se aproximando. E o que você fizer AGORA define como seu corpo vai responder a essa fase.',
+    'climaterio': 'Você está no climatério — exatamente a fase mais perigosa pra perder massa muscular. A queda hormonal já começou, mesmo que você ainda não note no espelho.',
+    'menop-recente': 'Você está nos primeiros 5 anos pós-menopausa — a fase de MAIOR aceleração da perda muscular. Cada mês sem treino de força é massa muscular indo embora.',
+    'menop-antiga': 'Você está há mais de 5 anos na menopausa. Provavelmente já sente o corpo MUITO diferente. A boa notícia: o método funciona em qualquer estágio.',
+    'incerto': 'Não tem problema não saber exatamente. O que importa é que, se você tem mais de 40, seu corpo JÁ está nessa transição hormonal.'
+  };
+  document.getElementById('menopausa-message').textContent = map[state.answers.menopausa] || map['climaterio'];
+}
+
+function renderTentativasPerso() {
+  const count = state.answers.tentativas.length;
+  const intro = document.getElementById('tentativas-intro');
+  if (count >= 4) {
+    intro.textContent = '💔 Você marcou ' + count + ' opções diferentes — e o seu corpo não respondeu a nenhuma. Você não está sozinha.';
+  } else if (count >= 2) {
+    intro.textContent = '💔 Você marcou ' + count + ' opções — e provavelmente não viu o resultado que esperava.';
+  } else if (state.answers.tentativas.includes('nada')) {
+    intro.textContent = '💔 Você ainda não tentou nada — e isso é OK. Significa que você vai começar do jeito certo, sem repetir os erros que 87% das mulheres cometem.';
+  } else {
+    intro.textContent = '💔 Você marcou poucas opções — e talvez ainda nem saiba por que nada funciona.';
+  }
+}
+
+// ============================================================
+// NAME + EMAIL CAPTURE
+// ============================================================
+function validateNome() {
+  const v = document.getElementById('input-nome').value.trim();
+  document.getElementById('btn-nome').disabled = v.length < 2;
+}
+function saveNomeAndNext() {
+  state.answers.nome = document.getElementById('input-nome').value.trim();
+  injectNome();
+  nextStep();
+}
+function injectNome() {
+  document.querySelectorAll('.dyn-nome').forEach(el => el.textContent = state.answers.nome);
+}
+function validateEmail() {
+  const v = document.getElementById('input-email').value.trim();
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  document.getElementById('btn-email').disabled = !ok;
+}
+function saveEmailAndNext() {
+  state.answers.email = document.getElementById('input-email').value.trim();
+  // ⚠️ Aqui você pode adicionar um fetch para salvar o lead no seu CRM
+  // fetch('/api/lead', { method: 'POST', body: JSON.stringify(state.answers) });
+  console.log('LEAD CAPTURADO:', state.answers);
+  nextStep();
+}
+
+// ============================================================
+// LOADING SIMULATION
+// ============================================================
+function runLoading() {
+  const items = document.querySelectorAll('#loadingList .loading-item');
+  const progressBar = document.getElementById('loadingProgress');
+  let i = 0;
+  const total = items.length;
+  const stepInterval = 1400; // ms per item
+
+  const tick = () => {
+    if (i < total) {
+      items[i].classList.add('done');
+      const pct = Math.round(((i + 1) / total) * 100);
+      progressBar.style.width = pct + '%';
+      i++;
+      setTimeout(tick, stepInterval);
+    } else {
+      setTimeout(() => showStep(21), 600);
+    }
+  };
+  setTimeout(tick, 400);
+}
+
+// ============================================================
+// RESULT PAGE
+// ============================================================
+const tipoCopy = {
+  sarcopenica: {
+    name: 'SARCOPÊNICA',
+    desc: 'Você está perdendo massa muscular em ritmo acelerado. Seu corpo está pedindo SOCORRO por estímulo de força — e nada de caminhada, pilates ou hidroginástica vai dar conta disso.',
+    urgency: 'ALTO 🔴',
+    fill: 85
+  },
+  inflamada: {
+    name: 'INFLAMADA',
+    desc: 'Seu corpo está com inflamação crônica e retenção. A pochete não é só gordura — é inchaço. Você precisa de protocolo anti-inflamatório + treino de força combinados.',
+    urgency: 'ALTO 🔴',
+    fill: 80
+  },
+  hormonal: {
+    name: 'HORMONAL',
+    desc: 'A menopausa está acelerando o acúmulo de gordura abdominal e a perda de firmeza. Você precisa de treino + nutrição ESPECÍFICA pra essa fase. Sem isso, qualquer dieta vai falhar.',
+    urgency: 'MUITO ALTO 🔴',
+    fill: 90
+  }
+};
+
+function renderResultado() {
+  injectNome();
+  const tipo = state.tipoFinal || 'sarcopenica';
+  const data = tipoCopy[tipo];
+  document.getElementById('tipo-name').textContent = data.name;
+  document.getElementById('tipo-description').textContent = data.desc;
+  document.getElementById('urgency-level').innerHTML = data.urgency;
+  document.getElementById('urgency-fill').style.width = data.fill + '%';
+  startTimer();
+  document.getElementById('stickyCta').classList.add('active');
+}
+
+// ============================================================
+// TIMER (15 minutes)
+// ============================================================
+let timerInterval = null;
+function startTimer() {
+  if (timerInterval) return;
+  const update = () => {
+    const m = Math.floor(state.timerSeconds / 60);
+    const s = state.timerSeconds % 60;
+    const txt = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    document.getElementById('timer').textContent = txt;
+    document.getElementById('miniTimer').textContent = txt;
+    if (state.timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      // Timer expirou — pode redirecionar ou mostrar mensagem
+    } else {
+      state.timerSeconds--;
+    }
+  };
+  update();
+  timerInterval = setInterval(update, 1000);
+}
+
+// ============================================================
+// CHECKOUT REDIRECT
+// ============================================================
+function goToCheckout(e) {
+  e.preventDefault();
+  // ⚠️ Aqui você pode passar os dados do lead via querystring se quiser
+  const url = CHECKOUT_URL + '?nome=' + encodeURIComponent(state.answers.nome) +
+              '&email=' + encodeURIComponent(state.answers.email) +
+              '&tipo=' + (state.tipoFinal || 'sarcopenica');
+  window.open(url, '_blank');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+updateProgress(0);
+</script>
+
+</body>
+</html>
