@@ -1175,14 +1175,6 @@
 
 </main>
 
-<!-- STICKY CTA (aparece no resultado) -->
-<div class="sticky-cta" id="stickyCta">
-  <div class="inner">
-    <div class="mini-timer">⏰ Oferta expira em <span id="miniTimer">15:00</span></div>
-    <a href="#" class="btn-cta" style="margin-top: 0; text-decoration: none; text-align: center; display: block;" onclick="goToCheckout(event)">QUERO POR R$ 97 →</a>
-  </div>
-</div>
-
 <script>
 // ============================================================
 // STATE
@@ -1455,7 +1447,6 @@ function renderResultado() {
   document.getElementById('urgency-level').innerHTML = data.urgency;
   document.getElementById('urgency-fill').style.width = data.fill + '%';
   startTimer();
-  document.getElementById('stickyCta').classList.add('active');
 }
 
 // ============================================================
@@ -1469,7 +1460,6 @@ function startTimer() {
     const s = state.timerSeconds % 60;
     const txt = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
     document.getElementById('timer').textContent = txt;
-    document.getElementById('miniTimer').textContent = txt;
     if (state.timerSeconds <= 0) {
       clearInterval(timerInterval);
       // Timer expirou — pode redirecionar ou mostrar mensagem
