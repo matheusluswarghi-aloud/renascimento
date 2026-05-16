@@ -1201,7 +1201,7 @@ const state = {
   timerSeconds: 15 * 60
 };
 
-const CHECKOUT_URL = 'https://exemplo.checkout.com/programa-renascimento'; // substituir pelo link real
+const CHECKOUT_URL = 'https://pay.hub.la/4GXN6x6bHU7EnoK2SZGh';
 
 // ============================================================
 // NAVIGATION
@@ -1476,11 +1476,12 @@ function startTimer() {
 // ============================================================
 function goToCheckout(e) {
   e.preventDefault();
-  // ⚠️ Aqui você pode passar os dados do lead via querystring se quiser
-  const url = CHECKOUT_URL + '?nome=' + encodeURIComponent(state.answers.nome) +
-              '&email=' + encodeURIComponent(state.answers.email) +
-              '&tipo=' + (state.tipoFinal || 'sarcopenica');
-  window.open(url, '_blank');
+  // Hubla aceita pré-preenchimento via ?name= e ?email=
+  const params = new URLSearchParams({
+    name: state.answers.nome || '',
+    email: state.answers.email || ''
+  });
+  window.location.href = CHECKOUT_URL + '?' + params.toString();
 }
 
 // ============================================================
