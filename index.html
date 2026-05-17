@@ -149,17 +149,17 @@
   .img-placeholder.small { height: 140px; }
   .img-placeholder.round { border-radius: 50%; width: 120px; height: 120px; margin: 0 auto 16px; }
 
-  /* Expert hero image (landing) */
-  .expert-hero {
+  /* Pain hero image (landing) */
+  .pain-hero {
     width: 100%;
-    height: 360px;
-    object-fit: cover;
-    object-position: center 20%;
+    max-height: 460px;
+    object-fit: contain;
     border-radius: 14px;
     margin: 0 0 22px;
     display: block;
+    background: #f4f1ee;
   }
-  @media (max-width: 600px) { .expert-hero { height: 300px; } }
+  @media (max-width: 600px) { .pain-hero { max-height: 380px; } }
 
   /* Expert avatar (round, result page) */
   .expert-avatar {
@@ -667,7 +667,7 @@
 <!-- ETAPA 0 — LANDING -->
 <!-- ============================================================ -->
 <section class="step active" data-step="0" data-progress="0">
-  <img class="expert-hero" src="images/sandra.jpg" alt="Sandra Vilela — Especialista em Treinamento de Força para Mulheres 50+">
+  <img class="pain-hero" src="images/dor-corpo-50.jpg" alt="Sinais visíveis da perda de massa muscular após os 50: braços flácidos, pochete e queda na pele do pescoço">
   <h1 class="headline">
     Sabe por que depois dos 50 o seu corpo fica <em>mole, flácido, com pochete crescendo e os braços molengas</em> — mesmo quando você se cuida?
   </h1>
