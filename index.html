@@ -1164,7 +1164,7 @@
   </div>
 
   <!-- BLOCO 9: CTA Final -->
-  <a href="#" id="checkoutBtn" class="btn-cta large" style="text-decoration: none; text-align: center;" onclick="goToCheckout(event)">QUERO MEU PROTOCOLO 3F POR R$ 97 →</a>
+  <button type="button" id="checkoutBtn" class="btn-cta large" onclick="goToCheckout()">QUERO MEU PROTOCOLO 3F POR R$ 97 →</button>
   <div class="trust-row" style="margin-top: 12px;">
     <span>🔒 Pagamento seguro</span>
     <span>💳 Cartão / Pix / Boleto</span>
@@ -1552,14 +1552,18 @@ function startTimer() {
 // ============================================================
 // CHECKOUT REDIRECT
 // ============================================================
-function goToCheckout(e) {
-  e.preventDefault();
-  // Hubla aceita pré-preenchimento via ?name= e ?email=
-  const params = new URLSearchParams({
-    name: state.answers.nome || '',
-    email: state.answers.email || ''
-  });
-  window.location.href = CHECKOUT_URL + '?' + params.toString();
+function goToCheckout() {
+  try {
+    // Hubla aceita pré-preenchimento via ?name= e ?email=
+    const params = new URLSearchParams({
+      name: (state && state.answers && state.answers.nome) || '',
+      email: (state && state.answers && state.answers.email) || ''
+    });
+    window.location.href = CHECKOUT_URL + '?' + params.toString();
+  } catch (err) {
+    console.error('Erro no redirect, indo direto pro checkout:', err);
+    window.location.href = CHECKOUT_URL;
+  }
 }
 
 // ============================================================
