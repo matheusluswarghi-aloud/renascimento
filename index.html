@@ -1235,6 +1235,16 @@ const state = {
 };
 
 const CHECKOUT_URL = 'https://pay.hub.la/4GXN6x6bHU7EnoK2SZGh';
+const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbym9m0jYqH8WoZxZFoaYMXRR_YOkaQyxwDxLJJYcUPWOWg1edwCEvzh_cB_hfJAfovJuQ/exec';
+
+// Captura UTMs da URL pra atribuição de campanha
+const URL_PARAMS = new URLSearchParams(window.location.search);
+const UTM = {
+  source: URL_PARAMS.get('utm_source') || '',
+  campaign: URL_PARAMS.get('utm_campaign') || '',
+  medium: URL_PARAMS.get('utm_medium') || '',
+  content: URL_PARAMS.get('utm_content') || ''
+};
 
 // ============================================================
 // NAVIGATION
@@ -1417,10 +1427,42 @@ function validateEmail() {
 }
 function saveEmailAndNext() {
   state.answers.email = document.getElementById('input-email').value.trim();
-  // ⚠️ Aqui você pode adicionar um fetch para salvar o lead no seu CRM
-  // fetch('/api/lead', { method: 'POST', body: JSON.stringify(state.answers) });
-  console.log('LEAD CAPTURADO:', state.answers);
+  scoreTipo(); // garante que tipoFinal está atualizado antes de enviar
+  sendLeadToSheets();
   nextStep();
+}
+
+function sendLeadToSheets() {
+  const payload = {
+    nome: state.answers.nome,
+    email: state.answers.email,
+    tipo: state.tipoFinal || '',
+    idade: state.answers.idade || '',
+    menopausa: state.answers.menopausa || '',
+    sintomas: state.answers.sintomas || [],
+    tentativas: state.answers.tentativas || [],
+    medo: state.answers.medo || '',
+    limitacoes: state.answers.limitacoes || [],
+    tempo: state.answers.tempo || '',
+    local: state.answers.local || '',
+    equipamentos: state.answers.equipamentos || [],
+    objetivo: state.answers.objetivo || '',
+    prazo: state.answers.prazo || '',
+    utm_source: UTM.source,
+    utm_campaign: UTM.campaign,
+    userAgent: navigator.userAgent
+  };
+
+  // Fire-and-forget: dispara em background, não bloqueia a navegação
+  // mode: 'no-cors' + Content-Type text/plain é o padrão para Apps Script
+  fetch(SHEETS_WEBHOOK, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.warn('Lead capture (não bloqueante):', err));
+
+  console.log('LEAD enviado:', payload);
 }
 
 // ============================================================
