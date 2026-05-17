@@ -472,36 +472,28 @@
   /* Cases */
   .case-card {
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
+    border-radius: 14px;
+    margin-bottom: 18px;
     background: #fff;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   }
   .case-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+    display: block;
     background: var(--bg-soft);
-    border: 1px dashed var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-light);
-    font-size: 11px;
-    flex-shrink: 0;
-    text-align: center;
-    padding: 4px;
   }
+  .case-content { padding: 16px 18px; }
   .case-content .case-name {
     font-weight: 700;
-    font-size: 15px;
+    font-size: 17px;
     color: var(--coral-dark);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
-  .case-content p { font-size: 14px; line-height: 1.5; color: var(--text); }
+  .case-content p { font-size: 15px; line-height: 1.55; color: var(--text); }
 
   /* Price table */
   .price-table {
@@ -1081,7 +1073,7 @@
     <h3>Mulheres como você que já transformaram com o Método 3F:</h3>
 
     <div class="case-card">
-      <div class="case-img">[FOTO Regina<br>antes/depois]</div>
+      <img class="case-img" src="images/case-regina.jpg" alt="Regina antes e depois do Programa Renascimento">
       <div class="case-content">
         <div class="case-name">Regina, 56 anos</div>
         <p>"Ia gastar R$ 22 mil em abdominoplastia. Antes de operar, decidi tentar o Programa Renascimento. Em 3 meses transformei meu corpo em casa, sem cirurgia."</p>
@@ -1089,7 +1081,7 @@
     </div>
 
     <div class="case-card">
-      <div class="case-img">[FOTO Solange<br>antes/depois]</div>
+      <img class="case-img" src="images/case-solange.jpg" alt="Solange antes e depois do Programa Renascimento">
       <div class="case-content">
         <div class="case-name">Solange, 53 anos</div>
         <p>"Estava com medo de começar Mounjaro mas via como única saída. Encontrei o Método 3F, tentei antes do remédio. Perdi 18kg, recuperei minha saúde — sem precisar do remédio."</p>
@@ -1097,7 +1089,7 @@
     </div>
 
     <div class="case-card">
-      <div class="case-img">[FOTO Marlene<br>antes/depois]</div>
+      <img class="case-img" src="images/case-marlene.jpg" alt="Marlene antes e depois do Programa Renascimento">
       <div class="case-content">
         <div class="case-name">Marlene, 58 anos</div>
         <p>"Estava entrando em depressão pela aparência. Em 3 meses no Programa Renascimento, transformei o corpo e voltei a usar biquíni depois de 8 anos."</p>
@@ -1105,7 +1097,7 @@
     </div>
 
     <div class="case-card">
-      <div class="case-img">[FOTO Conceição<br>antes/depois]</div>
+      <img class="case-img" src="images/case-conceicao.jpg" alt="Conceição antes e depois do Programa Renascimento">
       <div class="case-content">
         <div class="case-name">Conceição, 79 anos</div>
         <p>"Achei que era tarde demais. Hoje, com 79 anos, estou ganhando músculo e me sentindo uma menina. O problema nunca foi a idade — era o método."</p>
