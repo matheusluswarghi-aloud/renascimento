@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#E85A6F">
+<title>Programa Renascimento — Área da Aluna</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --coral: #E85A6F;
+    --coral-dark: #C7405A;
+    --coral-soft: #FFF1F3;
+    --text: #1A1A1A;
+    --text-light: #6B7280;
+    --border: #E5E7EB;
+    --bg-soft: #F9F7F5;
+    --green: #16A34A;
+    --green-soft: #DCFCE7;
+    --gold: #D97706;
+    --gold-soft: #FEF3C7;
+  }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fff;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  button, input { font-family: inherit; }
+
+  /* App shell */
+  .app { max-width: 600px; margin: 0 auto; min-height: 100vh; padding-bottom: 80px; }
+
+  /* Top bar */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+  }
+  .logo span { color: var(--coral); }
+  .back-btn {
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: var(--text);
+    cursor: pointer;
+    padding: 4px 8px 4px 0;
+    line-height: 1;
+  }
+  .topbar-title { font-weight: 600; font-size: 16px; }
+
+  /* Page content */
+  .page { padding: 22px 18px; display: none; animation: fadeIn 0.25s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Typography */
+  h1.page-title {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .subtitle { color: var(--text-light); font-size: 15px; margin-bottom: 22px; }
+
+  /* Login */
+  .login-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 22px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .login-logo {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .login-logo .brand {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .login-logo .brand span { color: var(--coral); }
+  .login-logo .tag {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  .login-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  }
+  .login-card h2 {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .login-card .lead { color: var(--text-light); font-size: 14px; margin-bottom: 18px; }
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 16px;
+    color: var(--text);
+    transition: border-color 0.18s;
+  }
+  .field input:focus {
+    outline: none;
+    border-color: var(--coral);
+  }
+
+  /* Buttons */
+  .btn {
+    width: 100%;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    box-shadow: 0 2px 8px rgba(232, 90, 111, 0.25);
+  }
+  .btn:hover { background: var(--coral-dark); transform: translateY(-1px); }
+  .btn:disabled { background: #D1D5DB; box-shadow: none; cursor: not-allowed; }
+  .btn-ghost {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    box-shadow: none;
+  }
+  .btn-ghost:hover { background: var(--bg-soft); border-color: var(--text-light); }
+  .btn-green { background: var(--green); box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25); }
+  .btn-green:hover { background: #15803D; }
+
+  /* Welcome card on home */
+  .welcome {
+    background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dark) 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 22px 20px;
+    margin-bottom: 22px;
+  }
+  .welcome .hi { font-size: 13px; opacity: 0.9; }
+  .welcome h2 {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    margin-top: 4px;
+    line-height: 1.25;
+  }
+  .welcome .quote {
+    margin-top: 14px;
+    font-size: 14px;
+    opacity: 0.92;
+    font-style: italic;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    padding-top: 14px;
+  }
+
+  /* Progress */
+  .progress-card {
+    background: var(--bg-soft);
+    border-radius: 14px;
+    padding: 18px 16px;
+    margin-bottom: 22px;
+  }
+  .progress-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .progress-row { display: flex; align-items: center; gap: 12px; }
+  .progress-num {
+    font-family: Georgia, serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1;
+  }
+  .progress-info { flex: 1; }
+  .progress-info .lbl { font-size: 14px; color: var(--text); font-weight: 600; }
+  .progress-info .sub { font-size: 13px; color: var(--text-light); }
+  .progress-bar {
+    margin-top: 10px;
+    height: 8px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--coral);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  /* Section heading */
+  .sec-head {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--text-light);
+    margin: 22px 0 12px;
+  }
+
+  /* Cards grid */
+  .card-grid { display: flex; flex-direction: column; gap: 12px; }
+  .feature-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 16px 16px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.18s;
+  }
+  .feature-card:hover {
+    border-color: var(--coral);
+    box-shadow: 0 4px 14px rgba(232, 90, 111, 0.08);
+    transform: translateY(-1px);
+  }
+  .feature-card .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--coral-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .feature-card .body { flex: 1; min-width: 0; }
+  .feature-card .ttl { font-weight: 700; font-size: 16px; }
+  .feature-card .desc { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .feature-card .arrow { color: var(--text-light); font-size: 24px; }
+
+  /* Workout list cards */
+  .workout-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.18s;
+    position: relative;
+  }
+  .workout-card.done { border-color: var(--green); background: var(--green-soft); }
+  .workout-card.done::after {
+    content: '✓ Completo';
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--green);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 99px;
+  }
+  .workout-card .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--coral);
+    background: var(--coral-soft);
+    padding: 4px 8px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+  }
+  .workout-card .name {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .workout-card .meta {
+    color: var(--text-light);
+    font-size: 13px;
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .workout-card:hover {
+    border-color: var(--coral);
+    transform: translateY(-1px);
+  }
+
+  /* Exercise items */
+  .exercise {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 14px 14px 16px;
+    margin-bottom: 10px;
+  }
+  .exercise.done { background: var(--green-soft); border-color: var(--green); }
+  .exercise .top { display: flex; align-items: flex-start; gap: 12px; }
+  .exercise .num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .exercise.done .num { background: var(--green); }
+  .exercise .info { flex: 1; }
+  .exercise .ex-name { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .exercise .ex-sets {
+    display: inline-block;
+    font-size: 13px;
+    background: var(--bg-soft);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .exercise .ex-desc { font-size: 14px; color: var(--text-light); line-height: 1.5; }
+  .exercise .ex-img {
+    margin: 10px 0;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+  }
+  .exercise .check-btn {
+    margin-top: 10px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .exercise.done .check-btn {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+
+  /* Meal cards */
+  .meal {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .meal h4 {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--coral);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .meal .time { font-size: 12px; color: var(--text-light); margin-bottom: 10px; }
+  .meal ul { list-style: none; }
+  .meal li { padding: 6px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .meal li:last-child { border-bottom: none; }
+  .meal li::before { content: '• '; color: var(--coral); font-weight: 700; }
+
+  /* Toggle tabs */
+  .toggle {
+    display: flex;
+    background: var(--bg-soft);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 18px;
+  }
+  .toggle button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.18s;
+  }
+  .toggle button.active {
+    background: #fff;
+    color: var(--coral);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  /* Substitution box */
+  .info-box {
+    background: var(--gold-soft);
+    border-left: 4px solid var(--gold);
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: #92400E;
+  }
+  .info-box strong { color: #78350F; }
+
+  /* Anti-pain item */
+  .mobility-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .mobility-item .num {
+    background: var(--coral-soft);
+    color: var(--coral);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .mobility-item .ttl { font-weight: 700; margin-bottom: 4px; }
+  .mobility-item .duration {
+    font-size: 12px;
+    background: var(--coral);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .mobility-item .desc { font-size: 14px; color: var(--text-light); line-height: 1.5; }
+
+  /* Challenge day */
+  .challenge-day {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .challenge-day.done { background: var(--green-soft); border-color: var(--green); }
+  .challenge-day .day-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--coral);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .challenge-day.done .day-label { color: var(--green); }
+  .challenge-day .mission {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .challenge-day .why { font-size: 14px; color: var(--text-light); line-height: 1.5; }
+  .challenge-day .complete-btn {
+    margin-top: 12px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .challenge-day.done .complete-btn {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+
+  /* Bottom tab bar */
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    display: flex;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.04);
+  }
+  .tabbar-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+  }
+  .tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 12px 4px 10px;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .tab.active { color: var(--coral); }
+  .tab .ico { font-size: 22px; line-height: 1; }
+
+  /* Modal de finalização */
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--green);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 4px 16px rgba(22,163,74,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Account screen */
+  .account-card {
+    background: var(--bg-soft);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .account-card .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    font-family: Georgia, serif;
+    font-size: 30px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+  .account-card .name-display { font-weight: 700; font-size: 17px; }
+  .account-card .email-display { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .account-action {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .account-action:hover { background: var(--bg-soft); }
+  .account-action.danger { color: var(--coral); border-color: var(--coral); }
+</style>
+</head>
+<body>
+
+<!-- ========================== LOGIN ========================== -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-logo">
+    <div class="brand">Programa <span>Renascimento</span></div>
+    <div class="tag">Sua área da aluna · Método 3F</div>
+  </div>
+  <div class="login-card">
+    <h2>Acessar sua conta</h2>
+    <p class="lead">Use o e-mail cadastrado na compra.</p>
+    <div class="field">
+      <label for="login-nome">Como você quer ser chamada?</label>
+      <input id="login-nome" type="text" placeholder="Seu primeiro nome" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label for="login-email">E-mail</label>
+      <input id="login-email" type="email" placeholder="seuemail@exemplo.com" autocomplete="email">
+    </div>
+    <button class="btn" onclick="doLogin()">Entrar →</button>
+  </div>
+  <p style="text-align:center; font-size:13px; color: var(--text-light); margin-top: 16px;">
+    Acessou via celular? Adicione esta tela à sua tela inicial pra usar como um app.
+  </p>
+</div>
+
+<!-- ========================== APP ========================== -->
+<div id="appShell" class="app" style="display:none;">
+
+  <!-- TOPBAR (genérica + back para detalhes) -->
+  <header class="topbar" id="topbar">
+    <div class="logo">Programa <span>Renascimento</span></div>
+    <button class="back-btn" id="topbarBack" onclick="goBack()" style="display:none;">←</button>
+    <div class="topbar-title" id="topbarTitle" style="display:none;"></div>
+    <span style="font-size:13px; color: var(--text-light);" id="topbarRight"></span>
+  </header>
+
+  <!-- =================== HOME =================== -->
+  <section class="page active" data-page="home">
+    <div class="welcome">
+      <div class="hi">Bom dia,</div>
+      <h2 id="welcome-name">Lindona!</h2>
+      <div class="quote">"Quanto mais força, mais saúde. Quanto mais massa muscular, mais autonomia pros próximos 30 anos." — Sandra</div>
+    </div>
+
+    <div class="progress-card">
+      <h3>Seu progresso da semana</h3>
+      <div class="progress-row">
+        <div class="progress-num" id="weekDone">0</div>
+        <div class="progress-info">
+          <div class="lbl">de 4 treinos realizados</div>
+          <div class="sub" id="weekSubtitle">Vamos lá, hoje é um bom dia pra começar.</div>
+          <div class="progress-bar"><div class="progress-fill" id="weekFill" style="width: 0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head">Acessar</div>
+    <div class="card-grid">
+      <div class="feature-card" onclick="showPage('treinos')">
+        <div class="icon">💪</div>
+        <div class="body">
+          <div class="ttl">Treinos da Semana</div>
+          <div class="desc">4 treinos de força · 30 min cada</div>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="feature-card" onclick="showPage('nutricao')">
+        <div class="icon">🥬</div>
+        <div class="body">
+          <div class="ttl">Plano Nutricional</div>
+          <div class="desc">Cardápio Densa 50+</div>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="feature-card" onclick="showPage('antidor')">
+        <div class="icon">🧘</div>
+        <div class="body">
+          <div class="ttl">Rotina Anti-Dor</div>
+          <div class="desc">Mobilidade e equilíbrio</div>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="feature-card" onclick="showPage('desafio')">
+        <div class="icon">✨</div>
+        <div class="body">
+          <div class="ttl">Desafio 7 Dias Desinflama</div>
+          <div class="desc">Sua jornada de saúde começa aqui</div>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== TREINOS LISTA =================== -->
+  <section class="page" data-page="treinos">
+    <h1 class="page-title">Treinos da Semana</h1>
+    <p class="subtitle">Faça 4 treinos por semana, com 1 dia de descanso entre eles. Tempo médio: 30 min.</p>
+    <div id="workoutList"></div>
+    <div class="info-box" style="margin-top: 20px;">
+      <strong>Dica da Sandra:</strong> não pule séries. A progressão de carga é o que constrói massa muscular real.
+    </div>
+  </section>
+
+  <!-- =================== TREINO DETALHE =================== -->
+  <section class="page" data-page="treino-detail">
+    <h1 class="page-title" id="workoutTitle">Treino A</h1>
+    <p class="subtitle" id="workoutSubtitle">Membros Inferiores · 30 min</p>
+    <div id="workoutExercises"></div>
+    <button class="btn btn-green" id="finishBtn" onclick="finishWorkout()" style="margin-top: 8px;">Finalizar treino ✓</button>
+  </section>
+
+  <!-- =================== NUTRIÇÃO =================== -->
+  <section class="page" data-page="nutricao">
+    <h1 class="page-title">Plano Nutricional Densa 50+</h1>
+    <p class="subtitle">Cardápio adaptado para mulheres acima dos 50 anos.</p>
+    <div class="toggle">
+      <button class="active" data-goal="emagrecer" onclick="setGoal('emagrecer')">Quero emagrecer</button>
+      <button data-goal="massa" onclick="setGoal('massa')">Ganhar massa</button>
+    </div>
+    <div id="mealsList"></div>
+    <div class="info-box">
+      <strong>Substituições:</strong> Frango → Peixe ou Patinho · Arroz → Quinoa ou Batata-doce · Pão → Tapioca · Ovo → Tofu (vegetariana)
+    </div>
+    <div class="sec-head">Importante</div>
+    <div class="meal">
+      <h4>Hidratação</h4>
+      <ul>
+        <li>2 litros de água por dia (mínimo)</li>
+        <li>Café e chá NÃO contam como água</li>
+        <li>Suco verde no café da manhã 3x na semana</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== ANTI-DOR =================== -->
+  <section class="page" data-page="antidor">
+    <h1 class="page-title">Rotina Anti-Dor</h1>
+    <p class="subtitle">Faça nos dias de descanso (3x por semana). Tempo total: 12 minutos.</p>
+    <div id="mobilityList"></div>
+    <div class="info-box">
+      <strong>Quando sentir desconforto:</strong> reduza a amplitude e respire fundo. Nunca force até a dor.
+    </div>
+  </section>
+
+  <!-- =================== DESAFIO =================== -->
+  <section class="page" data-page="desafio">
+    <h1 class="page-title">Desafio 7 Dias Desinflama</h1>
+    <p class="subtitle">Uma missão simples por dia, 7 dias. No fim, seu corpo agradece.</p>
+    <div id="challengeList"></div>
+  </section>
+
+  <!-- =================== CONTA =================== -->
+  <section class="page" data-page="conta">
+    <h1 class="page-title">Sua conta</h1>
+    <div class="account-card">
+      <div class="avatar" id="avatarInitial">L</div>
+      <div class="name-display" id="accountName">Lindona</div>
+      <div class="email-display" id="accountEmail">email@exemplo.com</div>
+    </div>
+    <div class="account-action" onclick="resetProgress()">
+      <span>Reiniciar meu progresso</span>
+      <span>›</span>
+    </div>
+    <div class="account-action" onclick="openSupport()">
+      <span>Suporte (WhatsApp)</span>
+      <span>›</span>
+    </div>
+    <div class="account-action danger" onclick="doLogout()">
+      <span>Sair da conta</span>
+      <span>›</span>
+    </div>
+    <p style="text-align:center; font-size:12px; color: var(--text-light); margin-top: 30px;">
+      Programa Renascimento · v1.0 MVP<br>
+      Método 3F · Sandra Vilela
+    </p>
+  </section>
+
+  <!-- TABBAR -->
+  <nav class="tabbar">
+    <div class="tabbar-inner">
+      <button class="tab active" data-tab="home" onclick="showPage('home')">
+        <span class="ico">🏠</span>
+        <span>Início</span>
+      </button>
+      <button class="tab" data-tab="treinos" onclick="showPage('treinos')">
+        <span class="ico">💪</span>
+        <span>Treinos</span>
+      </button>
+      <button class="tab" data-tab="nutricao" onclick="showPage('nutricao')">
+        <span class="ico">🥬</span>
+        <span>Nutrição</span>
+      </button>
+      <button class="tab" data-tab="conta" onclick="showPage('conta')">
+        <span class="ico">👤</span>
+        <span>Conta</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<div class="toast" id="toast">Salvo ✓</div>
+
+<script>
+// ============================================================
+// DATA: TREINOS, NUTRIÇÃO, ANTI-DOR, DESAFIO
+// ============================================================
+
+const WORKOUTS = {
+  A: {
+    name: 'Treino A',
+    focus: 'Membros Inferiores',
+    duration: '30 min',
+    equipment: 'Halteres + caneleiras',
+    exercises: [
+      { name: 'Agachamento livre', sets: '3 séries x 12 repetições', desc: 'Pés afastados na largura do quadril. Desça como se fosse sentar numa cadeira invisível, mantendo joelhos alinhados com os pés. Suba apertando o glúteo. Descanso: 60s entre séries.' },
+      { name: 'Avanço (afundo)', sets: '3 séries x 10 repetições cada perna', desc: 'Dê um passo grande à frente, desça o joelho de trás em direção ao chão (sem encostar). Mantenha o tronco ereto. Alterne as pernas. Descanso: 60s.' },
+      { name: 'Elevação pélvica (ponte de glúteo)', sets: '3 séries x 15 repetições', desc: 'Deitada com joelhos flexionados e pés no chão. Eleve o quadril apertando o glúteo até alinhar joelho-quadril-ombro. Segure 2 segundos no topo. Descanso: 45s.' },
+      { name: 'Cadeira (sentar e levantar)', sets: '3 séries x 12 repetições', desc: 'Em pé na frente de uma cadeira. Sente lentamente (3 segundos descendo) e levante sem usar as mãos. Descanso: 60s.' },
+      { name: 'Elevação de panturrilha', sets: '3 séries x 20 repetições', desc: 'Em pé, suba na ponta dos pés segurando 2 segundos no topo. Pode segurar na parede para equilíbrio. Descanso: 30s.' }
+    ]
+  },
+  B: {
+    name: 'Treino B',
+    focus: 'Membros Superiores',
+    duration: '30 min',
+    equipment: 'Halteres',
+    exercises: [
+      { name: 'Remada na cadeira', sets: '3 séries x 12 repetições', desc: 'Sentada com tronco levemente inclinado pra frente. Halteres nas mãos, puxe os cotovelos pra trás apertando as escápulas. Descanso: 60s.' },
+      { name: 'Desenvolvimento de ombro', sets: '3 séries x 10 repetições', desc: 'Em pé ou sentada, halteres na altura dos ombros. Empurre pra cima até estender os braços. Desça controladamente. Descanso: 60s.' },
+      { name: 'Rosca direta', sets: '3 séries x 12 repetições', desc: 'Em pé, halteres ao lado do corpo. Flexione os cotovelos levando os halteres em direção aos ombros. Desça devagar. Descanso: 45s.' },
+      { name: 'Tríceps testa (deitada)', sets: '3 séries x 12 repetições', desc: 'Deitada, halteres estendidos acima da cabeça. Flexione apenas os cotovelos, descendo os halteres em direção à testa. Volte estendendo. Descanso: 45s.' },
+      { name: 'Elevação lateral', sets: '3 séries x 12 repetições', desc: 'Em pé, halteres ao lado do corpo. Eleve os braços lateralmente até a altura dos ombros. Desça controladamente. Descanso: 45s.' }
+    ]
+  },
+  C: {
+    name: 'Treino C',
+    focus: 'Core e Postura',
+    duration: '25 min',
+    equipment: 'Apenas o peso do corpo',
+    exercises: [
+      { name: 'Prancha (joelho apoiado se preciso)', sets: '3 séries x 30 segundos', desc: 'Apoie antebraços e pontas dos pés. Mantenha o corpo reto, abdômen contraído. Se sentir dor lombar, apoie os joelhos no chão. Descanso: 45s.' },
+      { name: 'Ponte com elevação de perna', sets: '3 séries x 10 cada perna', desc: 'Ponte de glúteo. No topo, estenda uma perna mantendo o quadril alinhado. Alterne. Descanso: 60s.' },
+      { name: 'Bird Dog (cachorro de caça)', sets: '3 séries x 10 cada lado', desc: 'Quatro apoios. Estenda braço direito e perna esquerda ao mesmo tempo. Mantenha o tronco estável, sem cair pra um lado. Alterne. Descanso: 45s.' },
+      { name: 'Abdominal supra (curto)', sets: '3 séries x 15 repetições', desc: 'Deitada com joelhos flexionados. Eleve apenas ombros e cabeça do chão, sem puxar o pescoço. Foque em "encolher" o abdômen. Descanso: 45s.' },
+      { name: 'Superman', sets: '3 séries x 12 repetições', desc: 'Deitada de bruços, braços estendidos à frente. Eleve braços e pernas ao mesmo tempo, apertando o glúteo e a lombar. Segure 2 segundos. Descanso: 60s.' }
+    ]
+  },
+  D: {
+    name: 'Treino D',
+    focus: 'Full Body (Corpo Inteiro)',
+    duration: '35 min',
+    equipment: 'Halteres + elásticos',
+    exercises: [
+      { name: 'Agachamento com peso', sets: '3 séries x 12 repetições', desc: 'Igual ao agachamento livre, mas segurando um halter contra o peito ou um em cada mão. Aumenta o estímulo. Descanso: 60s.' },
+      { name: 'Flexão modificada (joelho apoiado)', sets: '3 séries x 8-12 repetições', desc: 'Apoie joelhos e mãos no chão. Desça o peito até quase encostar no chão. Empurre pra subir. Quem conseguir, faz tradicional. Descanso: 60s.' },
+      { name: 'Remada com elástico', sets: '3 séries x 12 repetições', desc: 'Elástico preso em algo firme à sua frente. Puxe pra trás levando os cotovelos atrás do corpo. Descanso: 45s.' },
+      { name: 'Stiff (alongamento de posterior)', sets: '3 séries x 12 repetições', desc: 'Em pé com halteres na mão. Inclinando o tronco à frente com joelhos quase estendidos, desça os halteres pela frente das pernas. Sinta o esticar do posterior. Descanso: 60s.' },
+      { name: 'Abdominal de prancha lateral', sets: '3 séries x 20s cada lado', desc: 'Deitada de lado, apoie antebraço no chão. Eleve o quadril mantendo o corpo reto. Segure 20 segundos cada lado. Descanso: 45s.' },
+      { name: 'Caminhada estacionária', sets: '3 minutos finais', desc: 'Marche no lugar erguendo bem os joelhos. Mantém o coração ativo no final. Sem descanso.' }
+    ]
+  }
+};
+
+const MEALS = {
+  emagrecer: [
+    { name: 'Café da manhã', time: '7h - 8h30', items: ['2 ovos mexidos com azeite', '1 fatia de pão integral OU 1 tapioca pequena', '1 fruta (maçã, pera, mamão papaia)', 'Chá ou café sem açúcar'] },
+    { name: 'Lanche da manhã', time: '10h - 11h', items: ['1 punhado de castanhas (15-20g)', 'OU 1 iogurte natural sem açúcar'] },
+    { name: 'Almoço', time: '12h - 13h30', items: ['Salada à vontade (folhas, tomate, pepino, cenoura)', '1 porção de proteína: frango grelhado / peixe / patinho (150g)', '4 colheres de arroz integral OU 1 batata-doce média', '1 concha de feijão', 'Azeite de oliva'] },
+    { name: 'Lanche da tarde', time: '16h - 17h', items: ['1 fruta + 10g de pasta de amendoim integral', 'OU 1 ovo cozido + 1 fruta'] },
+    { name: 'Jantar', time: '19h - 20h30', items: ['Sopa de legumes com 100g de proteína (frango desfiado, atum, ovo)', 'OU omelete com legumes + salada'] }
+  ],
+  massa: [
+    { name: 'Café da manhã', time: '7h - 8h30', items: ['3 ovos mexidos com queijo branco', '2 fatias de pão integral OU tapioca grande', '1 fruta + 1 colher de aveia', 'Chá ou café'] },
+    { name: 'Lanche da manhã', time: '10h - 11h', items: ['1 banana + 1 colher de pasta de amendoim integral', '1 punhado de castanhas (20g)'] },
+    { name: 'Almoço', time: '12h - 13h30', items: ['Salada à vontade', 'Proteína: 180g de frango, carne magra ou peixe', '5 colheres de arroz integral + 1 batata doce', '1 concha cheia de feijão', 'Azeite de oliva'] },
+    { name: 'Pré-treino', time: '30 min antes do treino', items: ['1 fruta + 1 punhado de castanhas', 'Café preto opcional'] },
+    { name: 'Pós-treino', time: '30 min depois do treino', items: ['Shake de proteína (whey) + 1 banana', 'OU 3 ovos + 1 fatia de pão integral'] },
+    { name: 'Jantar', time: '19h - 20h30', items: ['Proteína (150g) + arroz/batata + legumes refogados', 'Azeite'] }
+  ]
+};
+
+const MOBILITY = [
+  { name: 'Mobilidade de pescoço', dur: '1 min', desc: 'Movimentos lentos: cabeça pra frente e pra trás (5x), lado a lado (5x), círculos lentos em cada direção (5x). Respire fundo.' },
+  { name: 'Círculos de ombro', dur: '1 min', desc: '10 círculos pra frente, 10 pra trás. Amplitude máxima. Sem dor.' },
+  { name: 'Alongamento de peito (porta)', dur: '1 min', desc: 'Coloque o antebraço numa parede ou portal, gire o corpo pro lado oposto. 30 segundos cada lado.' },
+  { name: 'Gato-camelo', dur: '2 min', desc: 'Quatro apoios. Arqueie a coluna pra cima (gato), depois pra baixo (camelo). 10 repetições lentas, respirando.' },
+  { name: 'Rotação de quadril (deitada)', dur: '2 min', desc: 'Deitada de costas, joelhos flexionados. Deixe os joelhos caírem pra um lado, depois pro outro. 10 vezes cada lado.' },
+  { name: 'Alongamento de posterior', dur: '2 min', desc: 'Sentada no chão, perna estendida. Tente alcançar o pé sem forçar. 30 segundos cada perna. Use uma toalha se precisar.' },
+  { name: 'Mobilidade de tornozelo', dur: '1 min', desc: 'Sentada, faça círculos com os pés. 10 pra cada lado, em cada pé.' },
+  { name: 'Respiração diafragmática final', dur: '2 min', desc: 'Deitada, mão na barriga. Inspire profundamente enchendo a barriga (não o peito). Expire devagar. 10 respirações.' }
+];
+
+const CHALLENGE = [
+  { day: 1, mission: 'Zerar o açúcar refinado', why: 'Só por hoje: nada de açúcar branco no café, nos doces, nos refrigerantes. Açúcar inflama o corpo e bagunça os hormônios. Você vai sentir diferença já amanhã.' },
+  { day: 2, mission: 'Beber 2 litros de água', why: 'Sua articulação, sua pele e seu intestino dependem de hidratação. Sem água, o corpo retém líquidos achando que tá faltando. Hoje: 2 litros, nem menos.' },
+  { day: 3, mission: 'Comer apenas comida real', why: 'Nada de industrializado hoje. Comida real = aquilo que sua avó reconheceria como comida. Frutas, legumes, carnes, ovos, raízes, grãos. Pode usar tempero.' },
+  { day: 4, mission: '30 min de sol antes das 10h', why: 'Vitamina D natural, regulação do sono, melhora do humor. Sai um pouco da casa, mesmo no quintal. 30 minutos é o suficiente.' },
+  { day: 5, mission: 'Zero processados (embalados)', why: 'Hoje a regra é: nada que venha em pacote pronto. Sem bolacha, sem pão de pacote, sem embutido. É um dia de detox real.' },
+  { day: 6, mission: 'Dormir pelo menos 7 horas', why: 'É no sono que o corpo regenera massa muscular. Dormir menos de 7 horas anula 50% do efeito do seu treino. Hoje vai dormir cedo.' },
+  { day: 7, mission: 'Diário de gratidão + balanço da semana', why: 'Escreva em uma folha de papel: 3 coisas que mudaram esta semana + 3 coisas que você quer manter pros próximos 30 dias. Compartilha com a Sandra no Instagram se quiser.' }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const STORAGE_KEY = 'renascimento-app-v1';
+const state = {
+  nome: '',
+  email: '',
+  goal: 'emagrecer',
+  workoutsDone: { A: false, B: false, C: false, D: false },
+  exercisesDone: {}, // { 'A-0': true, 'A-1': true, ... }
+  challengeDone: {}, // { 1: true, 2: true, ... }
+  currentWorkout: null,
+  history: ['home']
+};
+
+function loadState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try { Object.assign(state, JSON.parse(saved)); }
+    catch (e) { console.warn('State corrupted, starting fresh'); }
+  }
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// ============================================================
+// LOGIN / LOGOUT
+// ============================================================
+function doLogin() {
+  const nome = document.getElementById('login-nome').value.trim();
+  const email = document.getElementById('login-email').value.trim();
+  if (nome.length < 2 || !email.includes('@')) {
+    alert('Preencha seu nome e um email válido.');
+    return;
+  }
+  state.nome = nome;
+  state.email = email;
+  saveState();
+  showApp();
+}
+function doLogout() {
+  if (!confirm('Tem certeza? Você sairá da conta mas seu progresso fica salvo.')) return;
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('login-nome').value = '';
+  document.getElementById('login-email').value = '';
+}
+function resetProgress() {
+  if (!confirm('Vai apagar TODO o seu progresso (treinos feitos, desafio, etc). Confirma?')) return;
+  state.workoutsDone = { A: false, B: false, C: false, D: false };
+  state.exercisesDone = {};
+  state.challengeDone = {};
+  saveState();
+  renderAll();
+  toast('Progresso reiniciado');
+}
+function openSupport() {
+  window.open('https://wa.me/5511999999999?text=Ol%C3%A1%20Sandra%2C%20preciso%20de%20suporte%20no%20Programa%20Renascimento', '_blank');
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  document.getElementById('welcome-name').textContent = state.nome + '!';
+  document.getElementById('accountName').textContent = state.nome;
+  document.getElementById('accountEmail').textContent = state.email;
+  document.getElementById('avatarInitial').textContent = state.nome.charAt(0).toUpperCase();
+  renderAll();
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.querySelector(`.page[data-page="${name}"]`);
+  if (target) target.classList.add('active');
+
+  // tabbar highlight
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const tab = document.querySelector(`.tab[data-tab="${name}"]`);
+  if (tab) tab.classList.add('active');
+
+  // back button visibility
+  const backBtn = document.getElementById('topbarBack');
+  const isDetail = name === 'treino-detail';
+  backBtn.style.display = isDetail ? 'block' : 'none';
+
+  // history
+  if (state.history[state.history.length - 1] !== name) {
+    state.history.push(name);
+    if (state.history.length > 10) state.history.shift();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function goBack() {
+  state.history.pop();
+  const prev = state.history[state.history.length - 1] || 'treinos';
+  showPage(prev);
+}
+
+// ============================================================
+// WORKOUTS
+// ============================================================
+function renderWorkoutList() {
+  const container = document.getElementById('workoutList');
+  container.innerHTML = '';
+  Object.entries(WORKOUTS).forEach(([key, w]) => {
+    const done = state.workoutsDone[key];
+    const card = document.createElement('div');
+    card.className = 'workout-card' + (done ? ' done' : '');
+    card.onclick = () => openWorkout(key);
+    card.innerHTML = `
+      <span class="badge">${w.name}</span>
+      <div class="name">${w.focus}</div>
+      <div class="meta">
+        <span>⏱️ ${w.duration}</span>
+        <span>🏋️ ${w.equipment}</span>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function openWorkout(key) {
+  state.currentWorkout = key;
+  const w = WORKOUTS[key];
+  document.getElementById('workoutTitle').textContent = w.name;
+  document.getElementById('workoutSubtitle').textContent = `${w.focus} · ${w.duration} · ${w.equipment}`;
+  renderExercises(key);
+  showPage('treino-detail');
+}
+
+function renderExercises(key) {
+  const w = WORKOUTS[key];
+  const container = document.getElementById('workoutExercises');
+  container.innerHTML = '';
+  w.exercises.forEach((ex, idx) => {
+    const exKey = `${key}-${idx}`;
+    const done = state.exercisesDone[exKey];
+    const div = document.createElement('div');
+    div.className = 'exercise' + (done ? ' done' : '');
+    div.innerHTML = `
+      <div class="top">
+        <div class="num">${idx + 1}</div>
+        <div class="info">
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-sets">${ex.sets}</div>
+          <div class="ex-img">[IMAGEM DEMONSTRATIVA DO EXERCÍCIO]</div>
+          <div class="ex-desc">${ex.desc}</div>
+          <button class="check-btn" onclick="toggleExercise('${exKey}')">${done ? '✓ Feito' : 'Marcar como feito'}</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function toggleExercise(exKey) {
+  state.exercisesDone[exKey] = !state.exercisesDone[exKey];
+  saveState();
+  renderExercises(state.currentWorkout);
+}
+
+function finishWorkout() {
+  const key = state.currentWorkout;
+  const w = WORKOUTS[key];
+  const totalDone = w.exercises.filter((_, idx) => state.exercisesDone[`${key}-${idx}`]).length;
+  if (totalDone < w.exercises.length) {
+    if (!confirm(`Você ainda não marcou ${w.exercises.length - totalDone} exercício(s). Finalizar mesmo assim?`)) return;
+  }
+  state.workoutsDone[key] = true;
+  saveState();
+  toast('Treino finalizado! 💪');
+  renderHome();
+  renderWorkoutList();
+  setTimeout(() => showPage('treinos'), 800);
+}
+
+// ============================================================
+// NUTRIÇÃO
+// ============================================================
+function setGoal(goal) {
+  state.goal = goal;
+  saveState();
+  document.querySelectorAll('.toggle button').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.toggle button[data-goal="${goal}"]`).classList.add('active');
+  renderMeals();
+}
+function renderMeals() {
+  const meals = MEALS[state.goal];
+  const container = document.getElementById('mealsList');
+  container.innerHTML = '';
+  meals.forEach(meal => {
+    const div = document.createElement('div');
+    div.className = 'meal';
+    div.innerHTML = `
+      <h4>${meal.name}</h4>
+      <div class="time">${meal.time}</div>
+      <ul>${meal.items.map(i => `<li>${i}</li>`).join('')}</ul>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ============================================================
+// ANTI-DOR
+// ============================================================
+function renderMobility() {
+  const container = document.getElementById('mobilityList');
+  container.innerHTML = '';
+  MOBILITY.forEach((m, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mobility-item';
+    div.innerHTML = `
+      <div class="num">${idx + 1}</div>
+      <div>
+        <div class="duration">${m.dur}</div>
+        <div class="ttl">${m.name}</div>
+        <div class="desc">${m.desc}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ============================================================
+// DESAFIO
+// ============================================================
+function renderChallenge() {
+  const container = document.getElementById('challengeList');
+  container.innerHTML = '';
+  CHALLENGE.forEach(d => {
+    const done = state.challengeDone[d.day];
+    const div = document.createElement('div');
+    div.className = 'challenge-day' + (done ? ' done' : '');
+    div.innerHTML = `
+      <div class="day-label">Dia ${d.day} de 7</div>
+      <div class="mission">${d.mission}</div>
+      <div class="why">${d.why}</div>
+      <button class="complete-btn" onclick="toggleChallenge(${d.day})">${done ? '✓ Concluído' : 'Marcar como concluído'}</button>
+    `;
+    container.appendChild(div);
+  });
+}
+function toggleChallenge(day) {
+  state.challengeDone[day] = !state.challengeDone[day];
+  saveState();
+  renderChallenge();
+}
+
+// ============================================================
+// HOME
+// ============================================================
+function renderHome() {
+  const done = Object.values(state.workoutsDone).filter(Boolean).length;
+  document.getElementById('weekDone').textContent = done;
+  document.getElementById('weekFill').style.width = (done / 4 * 100) + '%';
+  const messages = [
+    'Vamos lá, hoje é um bom dia pra começar.',
+    'Boa! Mais 3 e a semana fecha forte.',
+    'Metade da semana — não desista agora.',
+    'Falta 1 só! Já está quase fechando 100%.',
+    'Você fechou a semana! Que orgulho. 💪'
+  ];
+  document.getElementById('weekSubtitle').textContent = messages[done];
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function renderAll() {
+  renderHome();
+  renderWorkoutList();
+  renderMeals();
+  renderMobility();
+  renderChallenge();
+}
+
+loadState();
+if (state.email) {
+  showApp();
+} else {
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+</script>
+
+</body>
+</html>
