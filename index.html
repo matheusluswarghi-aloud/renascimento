@@ -600,11 +600,11 @@
 
   <!-- ============ ETAPA 0 — LANDING ============ -->
   <div class="step active" data-step="0">
-    <h1>Depois dos 50 anos a pele da mulher fica <span class="hl-coral">mole, flácida e com rugas</span> — e nenhum creme caro vai resolver isso.</h1>
+    <h1>Depois dos 50 anos a mulher perde firmeza da <span class="hl-coral">pele E do corpo</span>, começa a sentir <span class="hl-coral">dores</span> — e nem creme caro nem academia vão resolver isso.</h1>
 
     <img src="images/skin-ba-01.jpg" alt="Antes e depois de pele" class="hero-img" onerror="this.style.background='linear-gradient(135deg,#FFE4E6 0%,#FBF7F4 100%)';this.removeAttribute('src');">
 
-    <p>Descubra agora como você pode reverter o envelhecimento da sua pele de forma <strong>natural</strong>, sem precisar comprar nenhum produto.</p>
+    <p>Descubra agora como firmar a pele E o corpo depois dos 50 e acabar com as dores de forma <strong>natural</strong>, sem comprar nenhum produto.</p>
 
     <button class="btn btn-cta-large" onclick="next()">DESCOBRIR AGORA →</button>
   </div>
@@ -667,6 +667,14 @@
       <button class="option" data-value="tudo">Tudo isso<span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3 3 7-7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
       <button class="option" data-value="nada">Nada disso<span class="option-check"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3 3 7-7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
     </div>
+
+    <!-- Reforço personalizado de dor (aparece após a pessoa selecionar) -->
+    <div id="dorReforcoBox" style="display:none; animation: fadeIn 0.4s ease;">
+      <div class="sandra-quote" style="background:linear-gradient(135deg,#FFF6F8 0%,#FBF7F4 100%); border-left:4px solid var(--coral); margin-top:6px;">
+        <strong>Sandra:</strong> "<span id="dorReforcoTexto">Essas dores que você sente</span> vão sumir nas primeiras semanas do Método EA. Quando seu corpo volta a produzir <strong>estrogênio</strong> — o hormônio natural da beleza — ele reativa a produção de colágeno <strong>nas suas articulações também</strong> (não só na pele). Em geral, em 4 semanas as alunas relatam que a dor diminuiu MUITO no dia a dia. Sem remédio. Sem anti-inflamatório. Só o seu corpo voltando a fabricar o que faltava."
+      </div>
+    </div>
+
     <img src="images/skin-ba-02.jpg" alt="Pele madura" class="hero-img" onerror="this.style.background='linear-gradient(135deg,#FFE4E6 0%,#FBF7F4 100%)';this.removeAttribute('src');">
     <button class="btn" onclick="next()">CONTINUAR →</button>
   </div>
@@ -1099,10 +1107,52 @@
           const selected = [...opts.querySelectorAll('.option.selected')].map(b => b.dataset.value);
           state.answers[q] = selected;
           save();
+          if (q === 'dor') updateDorReforco(selected);
         }
       });
     });
   });
+
+  function updateDorReforco(arr) {
+    const box = document.getElementById('dorReforcoBox');
+    const txt = document.getElementById('dorReforcoTexto');
+    if (!box || !txt) return;
+
+    // Nada selecionado → esconde
+    if (!arr || arr.length === 0) { box.style.display = 'none'; return; }
+
+    // "Nada disso" → mensagem diferente (prevenção)
+    if (arr.includes('nada')) {
+      txt.innerHTML = 'Que bom que você ainda não sente essas dores';
+      box.querySelector('.sandra-quote').innerHTML = '<strong>Sandra:</strong> "Que bom que você ainda não sente essas dores. O Método EA vai te ajudar a <strong>preservar isso</strong>. A maioria das mulheres começa a sentir as primeiras dores entre 50 e 55 anos — quando o estrogênio cai. Ao reativar essa produção agora, você se blinda pra próxima década."';
+      box.style.display = 'block';
+      return;
+    }
+
+    // Reset do conteúdo padrão se foi sobrescrito antes
+    box.querySelector('.sandra-quote').innerHTML = '<strong>Sandra:</strong> "<span id="dorReforcoTexto"></span> vão sumir nas primeiras semanas do Método EA. Quando seu corpo volta a produzir <strong>estrogênio</strong> — o hormônio natural da beleza — ele reativa a produção de colágeno <strong>nas suas articulações também</strong> (não só na pele). Em geral, em 4 semanas as alunas relatam que a dor diminuiu MUITO no dia a dia. Sem remédio. Sem anti-inflamatório. Só o seu corpo voltando a fabricar o que faltava."';
+    const novoTxt = document.getElementById('dorReforcoTexto');
+
+    // Monta lista personalizada
+    if (arr.includes('tudo')) {
+      novoTxt.textContent = 'Sua dor no joelho, suas dores nas costas, seu cansaço e sua falta de disposição';
+    } else {
+      const labels = {
+        joelho: 'sua dor no joelho',
+        costas: 'sua dor nas costas',
+        cansaco: 'seu cansaço fora do normal',
+        disposicao: 'sua falta de disposição'
+      };
+      const partes = arr.filter(v => labels[v]).map(v => labels[v]);
+      if (partes.length === 0) { box.style.display = 'none'; return; }
+      let frase;
+      if (partes.length === 1) frase = partes[0].charAt(0).toUpperCase() + partes[0].slice(1);
+      else if (partes.length === 2) frase = (partes[0] + ' e ' + partes[1]).replace(/^./, c => c.toUpperCase());
+      else frase = (partes.slice(0,-1).join(', ') + ' e ' + partes.slice(-1)).replace(/^./, c => c.toUpperCase());
+      novoTxt.textContent = frase;
+    }
+    box.style.display = 'block';
+  }
 
   // ================= SCORE TIPO =================
   function scoreTipo() {
