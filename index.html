@@ -955,7 +955,7 @@
   <!-- ============ ETAPA 21 — OFERTA ============ -->
   <div class="step" data-step="21">
     <span class="tag">SUA VAGA ESTÁ RESERVADA</span>
-    <h2>Escolha como você quer começar, <span id="nomeOferta">lindona</span>:</h2>
+    <h2>Hora de começar, <span id="nomeOferta">lindona</span>:</h2>
 
     <div class="timer-wrap">
       <div class="timer-text">Sua vaga + esse preço expiram em:</div>
@@ -964,37 +964,20 @@
 
     <div class="offer-grid">
 
-      <!-- TRIMESTRAL -->
-      <div class="offer-card">
-        <div class="offer-name">Plano Trimestral</div>
-        <div class="offer-sub">3 meses de acompanhamento com a Sandra</div>
-        <div class="offer-price">R$ 88,66<span style="font-size:0.45em;color:var(--text-light);font-weight:400;">/mês</span></div>
-        <div class="offer-installments">R$ 266 a cada 3 meses</div>
+      <!-- SEMESTRAL (oferta única) -->
+      <div class="offer-card featured">
+        <div class="offer-name">Plano Semestral</div>
+        <div class="offer-sub">6 meses de acesso ao Programa Renascimento</div>
+        <div class="offer-price">R$ 21,43<span style="font-size:0.45em;color:var(--text-light);font-weight:400;">/mês</span></div>
+        <div class="offer-installments">R$ 128,60 por 6 meses de acesso</div>
         <ul class="offer-list">
           <li>Cardápio Antioxidante personalizado</li>
           <li>Rotina de Exercícios Ativadores de Estrogênio (10 min/dia)</li>
           <li>Protocolo dos 7 Antioxidantes da Juventude</li>
-          <li>WhatsApp direto com a Sandra por <strong>90 dias</strong></li>
+          <li>WhatsApp direto com a Sandra por <strong>6 meses</strong></li>
           <li>App do Programa Renascimento</li>
         </ul>
-        <button class="btn btn-secondary" type="button" onclick="goToCheckout('trimestral')">QUERO O TRIMESTRAL</button>
-      </div>
-
-      <!-- ANUAL -->
-      <div class="offer-card featured">
-        <div class="offer-badge">1 TRIMESTRE GRÁTIS</div>
-        <div class="offer-name">Plano Anual</div>
-        <div class="offer-sub">1 ano inteiro de acompanhamento — pague 9 meses, leve 12</div>
-        <div class="offer-price">R$ 66,50<span style="font-size:0.45em;color:var(--text-light);font-weight:400;">/mês</span></div>
-        <div class="offer-installments">R$ 798 por ano</div>
-        <ul class="offer-list">
-          <li>Tudo do plano trimestral</li>
-          <li class="bonus"><strong>1 trimestre 100% GRÁTIS</strong> (você paga 9, leva 12 meses)</li>
-          <li>WhatsApp com a Sandra por <strong>365 dias</strong></li>
-          <li>Cardápio revisado a cada 60 dias com novidades de estação</li>
-          <li class="bonus">BÔNUS: Protocolo Pele Avançada (rosto, colo e mãos)</li>
-        </ul>
-        <button class="btn btn-cta-large" type="button" onclick="goToCheckout('anual')">QUERO O ANUAL →</button>
+        <button class="btn btn-cta-large" type="button" onclick="goToCheckout()">QUERO COMEÇAR HOJE →</button>
       </div>
 
     </div>
@@ -1012,7 +995,7 @@
       <div class="guarantee-text">Se em 30 dias você não sentir que esse é o caminho certo pra você, eu devolvo seu dinheiro. Sem pergunta, sem burocracia.</div>
     </div>
 
-    <button class="btn" type="button" onclick="goToCheckout('anual')">QUERO COMEÇAR HOJE (PLANO ANUAL) →</button>
+    <button class="btn" type="button" onclick="goToCheckout()">QUERO COMEÇAR HOJE →</button>
     <p class="small-link" style="margin-top:8px;">Pagamento seguro · Hubla · Cartão, Pix ou Boleto</p>
   </div>
 
@@ -1050,7 +1033,7 @@
       <div class="faq-a">Pelo Hubla (plataforma segura, igual Hotmart). Aceita cartão (parcelado), Pix e boleto.</div>
     </div>
 
-    <button class="btn btn-cta-large" type="button" onclick="goToCheckout('anual')" style="margin-top:24px;">QUERO ENTRAR AGORA →</button>
+    <button class="btn btn-cta-large" type="button" onclick="goToCheckout()" style="margin-top:24px;">QUERO ENTRAR AGORA →</button>
     <p class="small-link">30 dias de garantia · pagamento seguro Hubla</p>
   </div>
 
@@ -1061,8 +1044,7 @@
   const TOTAL_STEPS = 23; // 0 a 22
   const STORAGE_KEY = 'renascimento-quiz-v2';
   const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbym9m0jYqH8WoZxZFoaYMXRR_YOkaQyxwDxLJJYcUPWOWg1edwCEvzh_cB_hfJAfovJuQ/exec';
-  const CHECKOUT_TRIMESTRAL = 'https://pay.hub.la/jkWu7BthHaCNaQbfpLNQ';
-  const CHECKOUT_ANUAL = 'https://pay.hub.la/9uVey8qup2C4Uun1KCVZ';
+  const CHECKOUT_URL = 'https://pay.hub.la/F6ZunYZFy2Zu33Cy2KQ5';
 
   const state = {
     current: 0,
@@ -1294,17 +1276,16 @@
   }
 
   // ================= CHECKOUT =================
-  function goToCheckout(plano) {
+  function goToCheckout() {
     try {
-      const url = plano === 'anual' ? CHECKOUT_ANUAL : CHECKOUT_TRIMESTRAL;
       const nome = encodeURIComponent(state.nome || '');
       const whatsapp = encodeURIComponent(state.whatsapp || '');
       const params = window.location.search.replace('?', '');
-      let final = url + '?name=' + nome + '&phone=' + whatsapp;
+      let final = CHECKOUT_URL + '?name=' + nome + '&phone=' + whatsapp;
       if (params) final += '&' + params;
       window.location.href = final;
     } catch (e) {
-      window.location.href = plano === 'anual' ? CHECKOUT_ANUAL : CHECKOUT_TRIMESTRAL;
+      window.location.href = CHECKOUT_URL;
     }
   }
 
