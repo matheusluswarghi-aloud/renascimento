@@ -832,15 +832,15 @@
   <div class="step" data-step="14">
     <span class="tag">SEU RESULTADO ESTÁ PRONTO</span>
     <h2>Pra onde eu envio seu diagnóstico completo?</h2>
-    <p class="muted">Preciso desses dados pra te enviar o resultado e seu protocolo personalizado.</p>
+    <p class="muted">Preciso desses dados pra te mandar o resultado no seu WhatsApp junto com o protocolo personalizado.</p>
 
     <div class="form-group">
       <label class="form-label" for="nome">Seu primeiro nome</label>
       <input type="text" id="nome" class="form-input" placeholder="Ex: Sandra" autocomplete="given-name">
     </div>
     <div class="form-group">
-      <label class="form-label" for="email">Seu melhor e-mail</label>
-      <input type="email" id="email" class="form-input" placeholder="seu@email.com" autocomplete="email">
+      <label class="form-label" for="whatsapp">Seu WhatsApp (com DDD)</label>
+      <input type="tel" id="whatsapp" class="form-input" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="numeric" maxlength="15">
     </div>
 
     <button class="btn btn-cta-large" id="leadBtn" onclick="submitLead()">VER MEU RESULTADO →</button>
@@ -1070,7 +1070,7 @@
     tipoScore: { cansada: 0, madura: 0, avancada: 0 },
     tipoFinal: null,
     nome: '',
-    email: ''
+    whatsapp: ''
   };
 
   // ================= NAVIGATION =================
@@ -1220,21 +1220,22 @@
   // ================= LEAD CAPTURE =================
   function submitLead() {
     const nome = document.getElementById('nome').value.trim();
-    const email = document.getElementById('email').value.trim();
-    if (!nome || !email) {
-      alert('Por favor, preencha seu nome e e-mail pra ver o resultado.');
+    const whatsappRaw = document.getElementById('whatsapp').value;
+    const whatsapp = whatsappRaw.replace(/\D/g, '');
+    if (!nome || !whatsapp) {
+      alert('Por favor, preencha seu nome e WhatsApp pra ver o resultado.');
       return;
     }
-    if (!email.includes('@') || !email.includes('.')) {
-      alert('Verifique seu e-mail.');
+    if (whatsapp.length < 10 || whatsapp.length > 11) {
+      alert('Verifique seu número de WhatsApp (DDD + número).');
       return;
     }
     state.nome = nome.split(' ')[0];
-    state.email = email;
+    state.whatsapp = whatsapp;
     save();
 
     // Fire-and-forget pra Apps Script (no-cors)
-    sendLeadToSheets(nome, email);
+    sendLeadToSheets(nome, whatsapp);
 
     const btn = document.getElementById('leadBtn');
     btn.textContent = 'CARREGANDO...';
@@ -1242,11 +1243,31 @@
     setTimeout(() => showStep(15), 400);
   }
 
-  function sendLeadToSheets(nome, email) {
+  // Máscara WhatsApp (XX) XXXXX-XXXX
+  document.addEventListener('DOMContentLoaded', () => {
+    const wa = document.getElementById('whatsapp');
+    if (wa) {
+      wa.addEventListener('input', (e) => {
+        let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+        if (v.length > 10) {
+          v = v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+        } else if (v.length > 6) {
+          v = v.replace(/^(\d{2})(\d{4,5})(\d{0,4}).*/, '($1) $2-$3');
+        } else if (v.length > 2) {
+          v = v.replace(/^(\d{2})(\d*)/, '($1) $2');
+        } else if (v.length > 0) {
+          v = v.replace(/^(\d*)/, '($1');
+        }
+        e.target.value = v;
+      });
+    }
+  });
+
+  function sendLeadToSheets(nome, whatsapp) {
     try {
       const payload = {
         nome: nome,
-        email: email,
+        whatsapp: whatsapp,
         tipo: state.tipoFinal || '',
         idade: state.answers.idade || '',
         menopausa: state.answers.menopausa || '',
@@ -1277,9 +1298,9 @@
     try {
       const url = plano === 'anual' ? CHECKOUT_ANUAL : CHECKOUT_TRIMESTRAL;
       const nome = encodeURIComponent(state.nome || '');
-      const email = encodeURIComponent(state.email || '');
+      const whatsapp = encodeURIComponent(state.whatsapp || '');
       const params = window.location.search.replace('?', '');
-      let final = url + '?name=' + nome + '&email=' + email;
+      let final = url + '?name=' + nome + '&phone=' + whatsapp;
       if (params) final += '&' + params;
       window.location.href = final;
     } catch (e) {
@@ -1312,7 +1333,7 @@
         answers: state.answers,
         tipoFinal: state.tipoFinal,
         nome: state.nome,
-        email: state.email
+        whatsapp: state.whatsapp
       }));
     } catch (e) {}
   }
